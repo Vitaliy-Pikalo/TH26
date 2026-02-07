@@ -14,7 +14,7 @@ const ch=supabase.channel('room:'+code);
 ch.on('presence',{event:'sync'},()=>{});
 ch.on('broadcast',{event:'start'},(p)=>{if(onStart)onStart();});
 ch.on('broadcast',{event:'score'},(p)=>{if(p&&p.payload&&p.payload.name!=null)roomScores[p.payload.name]=p.payload.score;try{const lb=JSON.parse(sessionStorage.getItem('ss')||'[]');refreshLB(lb);}catch(e){}});
-ch.subscribe((status)=>{if(status==='SUBSCRIBED'){ch.track({name:pn()});isOnline=true;}});
+ch.subscribe((status)=>{if(status==='SUBSCRIBED'){ch.track({name:pn()});isOnline=true;if(!isHost)document.getElementById('le').textContent='Waiting for host to start...';}});
 roomChannel=ch;}
 async function broadcastStart(){if(roomChannel){try{roomChannel.send({type:'broadcast',event:'start',payload:{}});}catch(e){}}}
 async function broadcastScore(){if(roomChannel){try{roomChannel.send({type:'broadcast',event:'score',payload:{name:pn(),score:rp}});}catch(e){}}}
@@ -101,8 +101,8 @@ document.getElementById('hk').onclick=function(){leaveRoom();gameId=null;documen
 document.getElementById('jb').onclick=async function(){var c=document.getElementById('ci').value.trim();
 if(!c){document.getElementById('le').textContent='Enter a code';return}
 gameId=c;
-document.getElementById('le').textContent='Joining...';
-await subscribeRoom(c,false,function(){document.getElementById('le').textContent='';go()});};
+document.getElementById('le').textContent='Connecting...';
+await subscribeRoom(c,false,function(){document.getElementById('le').textContent='';go()})};
 document.getElementById('xb').onclick=function(){leaveRoom();gameId=null;ph='idle';document.getElementById('G').style.display='none';document.getElementById('L').style.display='flex';
 document.getElementById('lm').style.display='block';document.getElementById('hx').style.display='none'};
 document.getElementById('ea').onclick=function(){document.getElementById('E').style.display='none';document.getElementById('G').style.display='flex';setTimeout(init,50)};

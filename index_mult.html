@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>StockSprint</title><style>*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#08080d;--sf:#0e0e16;--bd:#1c1c2a;--g:#00e676;--r:#ff1744;--t1:#e0e0ee;--t2:#666680;--ac:#7c4dff}body{font-family:'Courier New',monospace;background:var(--bg);color:var(--t1);touch-action:manipulation;overflow:hidden;height:100dvh}#a{width:100%;height:100dvh;max-width:540px;margin:0 auto;display:flex;flex-direction:column;position:relative}#L{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100dvh;gap:12px;padding:20px}.gt{font-size:clamp(32px,9vw,48px);font-weight:900;text-transform:uppercase;text-align:center;line-height:1.1;color:#fff;text-shadow:3px 3px 0 var(--r),-3px -3px 0 var(--g),0 0 16px rgba(0,230,118,.25);letter-spacing:2px}.b{padding:12px 22px;font-size:14px;font-weight:700;background:var(--sf);color:var(--t1);border:1px solid var(--bd);border-radius:8px;cursor:pointer;width:200px;text-align:center;font-family:inherit}.b:active{transform:scale(.97)}.b.go{background:var(--g);color:#000;border-color:var(--g)}.jr{display:flex;gap:6px;align-items:center}.jr input{width:80px;padding:10px;font-size:18px;text-align:center;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);font-family:inherit;letter-spacing:4px}#hl{color:var(--t2);cursor:pointer;text-decoration:underline;font-size:11px;background:0;border:0;font-family:inherit}#le{color:var(--r);font-size:11px;min-height:14px}#hx{display:none;flex-direction:column;align-items:center;gap:10px}#G{display:none;flex-direction:column;height:100dvh;padding:8px}#H{display:flex;flex-wrap:wrap;gap:5px;font-size:12px;padding:2px 0;flex-shrink:0}.c{padding:5px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:5px;white-space:nowrap}.c.t{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}#tm{height:5px;border-radius:3px;margin:3px 0;background:rgba(255,255,255,.05);flex-shrink:0;overflow:hidden}#tf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--g),#0cf,var(--ac))}#B{position:relative;background:var(--sf);border-radius:10px;border:1px solid var(--bd);flex:1;min-height:0}canvas{width:100%;height:100%;display:block}#ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;display:none;z-index:2}#ov .p{font-size:min(7vw,26px);font-weight:700;text-shadow:0 0 12px #000}#ov .q{font-size:min(4.5vw,16px);margin-top:2px;text-shadow:0 0 8px #000}#ph{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--t2);background:var(--sf);padding:3px 10px;border-radius:12px;border:1px solid var(--bd);z-index:2;white-space:nowrap}#br{display:flex;gap:6px;padding:8px 0 4px;flex-shrink:0}#tb{flex:1;padding:clamp(11px,3vw,16px);font-size:clamp(15px,4.5vw,20px);font-weight:700;font-family:inherit;border:none;border-radius:8px;cursor:pointer}#tb:active{transform:scale(.97)}#tb:disabled{opacity:.3;cursor:not-allowed;transform:none}#tb.buy{background:var(--g);color:#000}#tb.sell{background:var(--r);color:#fff}#xb{padding:clamp(11px,3vw,16px) 14px;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;background:var(--sf);color:var(--t2);border:1px solid var(--bd);font-family:inherit}.gn{color:var(--g)}.rd{color:var(--r)}#E{display:none;position:absolute;inset:0;z-index:50;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px}.ep{font-size:clamp(38px,11vw,58px);font-weight:900;line-height:1;text-shadow:2px 2px 0 var(--r),-2px -2px 0 var(--g)}.e2{display:flex;gap:8px;margin-top:6px}.e2 .b{width:auto;padding:12px 24px;font-size:13px}#el{font-size:12px;width:min(260px,75vw);max-height:130px;overflow-y:auto}#el h3{color:var(--t2);margin-bottom:4px;font-size:11px}.lr{padding:5px 8px;margin:2px 0;background:var(--sf);border-radius:4px;display:flex;justify-content:space-between;border:1px solid var(--bd);font-size:12px}</style></head><body><div id="a"><div id="L"><div class="gt">STOCK<br>SPRINT</div><div style="color:var(--t2);font-size:11px">REAL DATA · 10 TRADES · 20 SECONDS</div><div id="lm"><div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin-bottom:4px"><span style="font-size:10px;color:var(--t2)">Your name</span><input type="text" id="pn" style="width:150px;padding:8px;font-size:13px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);text-align:center" placeholder="Player" maxlength="16"></div><div style="display:flex;flex-direction:column;align-items:center;gap:10px"><button class="b go" id="pb">PLAY SOLO</button><button class="b" id="hb">HOST GAME</button><div class="jr"><input id="ci" placeholder="CODE" maxlength="4" inputmode="numeric"><button class="b" style="width:auto;padding:12px 18px" id="jb">JOIN</button></div></div></div><div id="hx"><div style="color:var(--t2);font-size:12px">Share this code with friends</div><div style="font-size:38px;font-weight:900;letter-spacing:10px;color:var(--g)" id="gc">----</div><div style="display:flex;gap:8px"><button class="b go" id="sb" style="width:auto;padding:12px 28px">START</button><button class="b" id="hk" style="width:auto;padding:12px 20px">BACK</button></div></div><button id="hl">How to Play</button><div id="le"></div></div><div id="G"><div id="H"></div><div id="tm"><div id="tf" style="width:100%"></div></div><div id="B"><div id="ph"></div><div id="ov"><div class="p" id="dp"></div><div class="q" id="dc"></div></div><canvas id="cv"></canvas></div><div id="br"><button id="tb" class="buy" disabled>BUY</button><button id="xb">EXIT</button></div></div><div id="E"><div style="font-size:11px;color:var(--t2);letter-spacing:2px">RESULT</div><div style="font-size:14px;color:var(--ac);font-weight:700" id="ek"></div><div class="ep" id="ep"></div><div style="font-size:12px;color:var(--t2)" id="ee"></div><div style="font-size:11px;color:var(--t2);opacity:.6" id="eu"></div><div id="el"></div><div class="e2"><button class="b go" id="ea">AGAIN</button><button class="b" id="eh">HOME</button></div></div></div><script>
+var M={t:["AAPL","NVDA","AMZN"],s:5,st:{"AAPL":"2025-01-31","NVDA":"2025-01-31","AMZN":"2025-01-31"}},
+D=[[236,227.63,244.6,247.1,238.03,227.48,214,220.73,222.13,181.46,202.52,199.74,211.21,198.51,212.93,206.86,200.42,202.82,198.78,196.58,201,213.55,211.16,211.18,213.88,202.38,229.35,231.59,227.76,232.14,237.88,236.7,256.08,254.43,256.69,247.66,262.24,268.81,269.05,269.43,267.46,275.92,286.19,277.18,274.61,272.36,271.86,259.04,258.21,248.04,259.48,278.12],[120.07,129.84,138.85,130.28,114.06,106.98,119.53,121.41,108.38,97.64,110.71,98.89,109.02,113.54,129.93,134.38,134.81,141.92,142.83,145.48,155.02,159.34,164.92,172.41,173.5,173.72,182.7,180.45,177.99,174.18,168.31,177.75,183.61,181.85,185.54,188.32,182.64,191.49,206.88,199.05,186.6,182.55,181.46,184.97,177.72,189.21,186.5,185.04,187.05,187.67,191.13,185.41],[237.68,229.15,228.68,212.71,205.02,194.54,195.74,203.26,190.26,175.26,182.12,173.18,187.39,185.01,211.37,204.07,204.72,207.23,213.2,212.52,217.12,223.41,225.02,226.13,231.44,214.75,222.69,231.03,228.84,229,235.84,231.43,227.63,222.17,220.9,220.07,216.48,226.97,254,248.4,232.87,226.28,234.42,227.92,222.56,232.14,230.82,246.29,238.18,239.16,239.3,210.32]],
+SP=26,TT=20000,MC=10,cn=document.getElementById('cv'),cx=cn.getContext('2d'),
+W=0,H=0,P=[],tk='',ph='idle',sT=0,tI=0,cr=MC,bp=0,hd=false,rp=0,tl=[],
+PL=46,PR=8,PT=24,PB=36,MN='Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+function pn(){return(document.getElementById('pn').value.trim())||'Player'}
+function dt(i){var s=new Date(M.st[tk]+'T00:00:00');s.setDate(s.getDate()+i*M.s);return s}
+function fs(d){return MN[d.getMonth()]+' '+d.getDate()}
+function fm(d){return MN[d.getMonth()]+" '"+String(d.getFullYear()).slice(2)}
+function tot(p){var r=rp;if(hd&&bp>0)r+=(p-bp)/bp*100;return r}
+function rsz(){var b=document.getElementById('B');if(!b)return;var w=b.clientWidth,h=b.clientHeight;if(w&&h){var d=devicePixelRatio||1;cn.width=w*d;cn.height=h*d;cx.setTransform(d,0,0,d,0,0);W=w;H=h}}
+function draw(data,cp,gp){
+if(!W||!H||data.length<2)return;
+var gw=W-PL-PR,gh=H-PT-PB,lo=Math.min.apply(null,data),hi=Math.max.apply(null,data),rn=(hi-lo)||1;
+var pad=rn*.06,pL=lo-pad,pH=hi+pad,pR=pH-pL;
+var tx=function(i){return PL+(i/(data.length-1))*gw},ty=function(p){return PT+(pH-p)/pR*gh};
+cx.fillStyle='#0e0e16';cx.fillRect(0,0,W,H);
+cx.font='10px Courier New,monospace';cx.textAlign='right';cx.fillStyle='#444460';
+for(var i=0;i<=4;i++){var p=pL+pR*i/4,y=ty(p);cx.fillText('$'+p.toFixed(0),PL-4,y+3);
+if(i>0&&i<4){cx.strokeStyle='#1a1a28';cx.lineWidth=1;cx.beginPath();cx.moveTo(PL,y);cx.lineTo(W-PR,y);cx.stroke()}}
+cx.textAlign='center';cx.fillStyle='#444460';
+var lc=Math.min(data.length,5),ls=Math.max(1,Math.floor((data.length-1)/(lc-1)));
+for(var i=0;i<data.length;i+=ls)cx.fillText(fs(dt(i)),tx(i),H-PB+14);
+var li=data.length-1;if(li%ls)cx.fillText(fs(dt(li)),tx(li),H-PB+14);
+cx.strokeStyle='#252538';cx.lineWidth=1;cx.beginPath();cx.moveTo(PL,PT);cx.lineTo(PL,H-PB);cx.lineTo(W-PR,H-PB);cx.stroke();
+var up=data[li]>=data[0],cl=up?'#00e676':'#ff1744';
+cx.strokeStyle=cl;cx.lineWidth=2;cx.lineJoin='round';
+cx.beginPath();for(var i=0;i<data.length;i++){var x=tx(i),y=ty(data[i]);i?cx.lineTo(x,y):cx.moveTo(x,y)}cx.stroke();
+if(cp!=null){var x=tx(li),y=ty(cp);cx.beginPath();cx.arc(x,y,4,0,Math.PI*2);cx.fillStyle=cl;cx.fill()}
+var ov=document.getElementById('ov'),dp=document.getElementById('dp'),dc=document.getElementById('dc');
+if(cp!=null&&ph==='trading'){ov.style.display='block';dp.textContent='$'+cp.toFixed(2);dp.style.color=gp>=0?'var(--g)':'var(--r)';
+dc.textContent=(gp>=0?'+':'')+gp.toFixed(2)+'%';dc.style.color=gp>=0?'var(--g)':'var(--r)'}
+else ov.style.display='none'}
+function hud(){
+var h=document.getElementById('H'),pl=document.getElementById('ph'),tb=document.getElementById('tb'),tf=document.getElementById('tf');
+if(ph==='preview'){h.innerHTML='<span class="c t">'+tk+'</span><span class="c">PREVIEW</span>';
+pl.textContent=fm(dt(0))+' \u2192 '+fm(dt(SP-1));tb.disabled=true;tf.style.width='100%'}
+else if(ph==='trading'){var idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)],pct=tot(pr);
+var left=Math.max(0,Math.ceil((TT-(Date.now()-sT))/1000));tf.style.width=Math.max(0,left/20*100)+'%';
+h.innerHTML='<span class="c t">'+tk+'</span><span class="c">'+left+'s</span><span class="c">'+cr+'</span><span class="c '+(pct>=0?'gn':'rd')+'">'+(pct>=0?'+':'')+pct.toFixed(1)+'%</span>';
+pl.textContent=fs(dt(Math.min(idx,P.length-1)));
+tb.textContent=hd?'SELL':'BUY';tb.className=hd?'sell':'buy';tb.disabled=cr<=0}}
+function preview(){ph='preview';var dur=2500,s=Date.now();
+function t(){if(ph!=='preview')return;var e=(Date.now()-s)/dur,n=Math.min(SP,Math.floor(e*SP)+2);
+draw(P.slice(0,n),null,null);hud();
+if(e>=1){draw(P.slice(0,SP),null,null);setTimeout(function(){ph='trading';sT=Date.now();trading()},400);return}
+requestAnimationFrame(t)}requestAnimationFrame(t)}
+function trading(){document.getElementById('tb').disabled=false;var tp=P.length-SP;
+function t(){if(ph!=='trading')return;var now=Date.now();
+if(now>=sT+TT){tI=tp-1;ph='done';var lp=P[P.length-1];
+if(hd){rp+=(lp-bp)/bp*100;tl.push('s');hd=false}
+draw(P,lp,rp);showEnd();return}
+tI=((now-sT)/TT)*(tp-1);var ei=Math.min(SP+Math.floor(tI)+2,P.length);
+var v=P.slice(0,ei),ci=SP+Math.floor(tI),cp=P[Math.min(ci,P.length-1)];
+draw(v,cp,tot(cp));hud();requestAnimationFrame(t)}requestAnimationFrame(t)}
+document.getElementById('tb').onclick=function(){
+if(ph!=='trading'||cr<=0)return;var idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)];
+if(hd){rp+=(pr-bp)/bp*100;hd=false;cr--;tl.push('s')}
+else{bp=pr;hd=true;cr--;tl.push('b')}hud()};
+function showEnd(){
+var pct=rp,up=pct>=0;document.getElementById('ek').textContent=tk;
+var pe=document.getElementById('ep');pe.textContent=(up?'+':'')+pct.toFixed(2)+'%';pe.style.color=up?'var(--g)':'var(--r)';
+document.getElementById('ee').textContent=fm(dt(0))+' \u2192 '+fm(dt(P.length-1));
+document.getElementById('eu').textContent=tl.length+'/'+MC+' trades';
+var lb=[];try{lb=JSON.parse(sessionStorage.getItem('ss')||'[]')}catch(e){}
+lb.push({n:pn(),s:pct,t:tk});lb.sort(function(a,b){return b.s-a.s});lb=lb.slice(0,8);
+try{sessionStorage.setItem('ss',JSON.stringify(lb))}catch(e){}
+var el=document.getElementById('el'),s='<h3>RANKINGS</h3>';
+lb.forEach(function(e,i){s+='<div class="lr"><span>'+(i+1)+'. '+e.n+'</span><span class="'+(e.s>=0?'gn':'rd')+'">'+(e.s>=0?'+':'')+e.s.toFixed(1)+'%</span></div>'});
+el.innerHTML=s;document.getElementById('G').style.display='none';document.getElementById('E').style.display='flex'}
+function init(){var ti=Math.floor(Math.random()*M.t.length);tk=M.t[ti];P=D[ti].slice();
+hd=false;bp=0;rp=0;cr=MC;tI=0;ph='idle';tl=[];
+document.getElementById('tb').disabled=true;document.getElementById('tb').textContent='BUY';document.getElementById('tb').className='buy';
+document.getElementById('ov').style.display='none';document.getElementById('tf').style.width='100%';rsz();preview()}
+function go(){document.getElementById('L').style.display='none';document.getElementById('G').style.display='flex';setTimeout(init,50)}
+document.getElementById('pb').onclick=go;
+document.getElementById('hb').onclick=function(){var c=String(1000+Math.floor(Math.random()*9000));
+document.getElementById('gc').textContent=c;document.getElementById('lm').style.display='none';document.getElementById('hx').style.display='flex'};
+document.getElementById('sb').onclick=go;
+document.getElementById('hk').onclick=function(){document.getElementById('hx').style.display='none';document.getElementById('lm').style.display='block'};
+document.getElementById('jb').onclick=function(){var c=document.getElementById('ci').value.trim();
+if(!c){document.getElementById('le').textContent='Enter a code';return}document.getElementById('le').textContent='';go()};
+document.getElementById('xb').onclick=function(){ph='idle';document.getElementById('G').style.display='none';document.getElementById('L').style.display='flex';
+document.getElementById('lm').style.display='block';document.getElementById('hx').style.display='none'};
+document.getElementById('ea').onclick=function(){document.getElementById('E').style.display='none';document.getElementById('G').style.display='flex';setTimeout(init,50)};
+document.getElementById('eh').onclick=function(){document.getElementById('E').style.display='none';document.getElementById('L').style.display='flex'};
+document.getElementById('hl').onclick=function(){alert('STOCK SPRINT\n\n📈 PREVIEW: Watch ~6 months of history\n⏱ TRADE: 20s to BUY/SELL the next ~6 months\n🔄 10 TRADES: Each buy or sell uses one\n💰 % RETURN: Accumulates each buy→sell')};
+window.addEventListener('resize',function(){if(ph!=='idle')rsz()});rsz();
+</script></body></html>

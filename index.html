@@ -96,7 +96,11 @@ document.getElementById('gc').textContent=c;document.getElementById('lm').style.
 document.getElementById('sb').onclick=function(){startPoll();go()};
 document.getElementById('hk').onclick=function(){stopPoll();gameId=null;document.getElementById('hx').style.display='none';document.getElementById('lm').style.display='block'};
 document.getElementById('jb').onclick=async function(){var c=document.getElementById('ci').value.trim();
-if(!c){document.getElementById('le').textContent='Enter a code';return}await tryOnline();if(isOnline){var j=await joinGame(c);if(!j){document.getElementById('le').textContent='Room not found';return}}document.getElementById('le').textContent='';go()};
+if(!c){document.getElementById('le').textContent='Enter a code';return}
+await tryOnline();
+if(!isOnline){document.getElementById('le').textContent='Offline or server unreachable';return}
+var j=await joinGame(c);if(!j){document.getElementById('le').textContent='Room not found';return}
+document.getElementById('le').textContent='';go()};
 document.getElementById('xb').onclick=function(){stopPoll();gameId=null;ph='idle';document.getElementById('G').style.display='none';document.getElementById('L').style.display='flex';
 document.getElementById('lm').style.display='block';document.getElementById('hx').style.display='none'};
 document.getElementById('ea').onclick=function(){document.getElementById('E').style.display='none';document.getElementById('G').style.display='flex';setTimeout(init,50);if(isOnline&&gameId)startPoll()};

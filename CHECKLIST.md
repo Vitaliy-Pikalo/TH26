@@ -1,74 +1,35 @@
-# StockSprint – “Did I do everything right?” checklist
+# FlashTrades – checklist
 
-## Your project (verified)
+## Verified
 
-- **API_BASE** in `index.html`: set to `https://rifgcpscgxkqbkkcxouw.supabase.co/functions/v1`
-- **API_ANON_KEY** in `index.html`: set (anon JWT present)
-- **apiHeaders()** and all fetch calls use the anon key
-- **Supabase**: 5 functions (`prices`, `create`, `join`, `submit`, `leaderboard`), 1 migration
+- **API_ANON_KEY** in `index.html`: set (required for Realtime + submit)
+- **Supabase**: 1 Edge Function (`submit`), migrations for `games` and `scores`
 
-## What you must do on your end
+## What to do
 
-### 1. Supabase CLI login (one time)
+### 1. Database (one time)
 
-In a terminal:
+Dashboard → SQL Editor → run `migrations/20250207000000_initial.sql` and `20250208000000_add_public.sql`.
 
-```bash
-npx supabase login
-```
+### 2. Deploy submit function (optional)
 
-Browser opens; sign in and allow access.
+From project root: `.\deploy-supabase.ps1` or  
+`npx supabase link --project-ref rifgcpscgxkqbkkcxouw` then  
+`npx supabase functions deploy submit`
 
-### 2. Run the database migration (one time)
+### 3. Open the app
 
-- Open [Supabase Dashboard](https://supabase.com/dashboard) → your project **rifgcpscgxkqbkkcxouw**
-- Go to **SQL Editor** → **New query**
-- Copy the **entire** contents of `supabase/migrations/20250207000000_initial.sql`
-- Paste into the editor → **Run**
-- You should see “Success” and tables `games` and `scores` in **Table Editor**
+Local: `npx serve .` then open the URL.  
+Online: upload `index.html` to Netlify/Vercel/etc.
 
-### 3. Deploy the Edge Functions
+## Test
 
-From the **project root** (folder that contains `supabase/` and `index.html`):
-
-**Option A – PowerShell (Windows)**  
-```powershell
-.\deploy-supabase.ps1
-```
-
-**Option B – Manual**  
-```bash
-npx supabase link --project-ref rifgcpscgxkqbkkcxouw
-npx supabase functions deploy prices
-npx supabase functions deploy create
-npx supabase functions deploy join
-npx supabase functions deploy submit
-npx supabase functions deploy leaderboard
-```
-
-### 4. Host or open the frontend
-
-- **Local:** Open `index.html` in a browser (file://) or run a static server, e.g.  
-  `npx serve .`  
-  then open the URL shown (e.g. http://localhost:3000).
-- **Online:** Upload `index.html` (and keep `API_BASE` / `API_ANON_KEY` as they are) to any static host (Vercel, Netlify, GitHub Pages, etc.).
-
-## Quick test
-
-1. Open the app (local or hosted).
-2. **Play Solo** – chart should load (prices from your Supabase `prices` function or fallback).
-3. **Create Game** – should show a room code (if it says “No server” or errors, functions aren’t deployed or anon key is wrong).
-4. **Join Game** – enter that code; you should enter the game.
-5. After a round, leaderboard should show (if **submit** and **leaderboard** are deployed and migration was run).
+1. **Play** – solo round, chart loads (built-in data).
+2. **Host for Friends** – get code, start game (Realtime).
+3. **Join with Code** – enter code, wait for host to start.
+4. After a round, live leaderboard updates; score is sent to DB if submit is deployed.
 
 ## If something fails
 
-- **“No server” / Create or Join fails**  
-  - Functions not deployed → run step 3.  
-  - Wrong or missing anon key → Dashboard → Project Settings → API → copy **anon public** into `API_ANON_KEY` in `index.html`.
-
-- **CORS or 401 in browser console**  
-  - Confirm `API_ANON_KEY` is set and matches the **anon public** key in the dashboard.
-
-- **Leaderboard empty or submit fails**  
-  - Run the migration (step 2) so `games` and `scores` tables exist and RLS policies are in place.
+- **Set API_ANON_KEY for multiplayer** → Dashboard → Settings → API → copy anon public into `index.html`.
+- **Submit / leaderboard** → run migrations and deploy `submit`.

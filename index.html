@@ -23,8 +23,6 @@ body{font-family:monospace;background:var(--bg);color:var(--t1);touch-action:man
 #waitingScreen .hostCode{font-size:32px;font-weight:700;letter-spacing:8px;color:var(--g)}
 #waitingScreen .roomPlayers{font-size:14px;color:var(--t2);min-height:40px}
 #waitingScreen .hostHint{color:var(--t2);font-size:14px}
-#roomLb{font-size:12px;margin-top:8px}
-#roomLb h3{color:var(--t2);margin-bottom:4px;font-size:11px}
 .lobbyName{width:160px;padding:8px 12px;font-size:14px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);font-family:monospace}
 .btn{padding:14px 24px;font-size:15px;font-weight:700;font-family:monospace;background:var(--sf);color:var(--t1);border:1px solid var(--bd);border-radius:8px;cursor:pointer;width:200px;text-align:center;min-height:48px}
 .btn:active{transform:scale(.97)}
@@ -98,7 +96,7 @@ canvas{width:100%;height:100%;display:block}
 <div id="app">
 <div id="lobby">
 <h1>⚡ FlashTrades</h1>
-<p>Real stock data. 10 trades. 20 seconds. Beat the market.</p>
+<p>Real stock data. 20 seconds. Beat the market.</p>
 <div id="lobbyMenu">
 <label style="display:flex;flex-direction:column;gap:4px;align-items:center"><span style="font-size:11px;color:var(--t2)">Your name</span><input type="text" id="playerName" class="lobbyName" placeholder="Player" maxlength="20"></label>
 <button class="btn go" id="playBtn">PLAY</button>
@@ -153,7 +151,7 @@ canvas{width:100%;height:100%;display:block}
 
 <div class="htp-step">
 <div class="htp-icon">🔄</div>
-<div class="htp-text"><strong>You get 10 trades.</strong> Each buy or sell uses one trade. Time them wisely — buy dips, sell peaks.</div>
+<div class="htp-text"><strong>Trade freely.</strong> Buy dips, sell peaks. No limit on how many trades you make.</div>
 </div>
 
 <div class="htp-divider"></div>
@@ -201,6 +199,12 @@ const API_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 function apiHeaders(extra){const h=extra||{};if(API_ANON_KEY)h['Authorization']='Bearer '+API_ANON_KEY;return h;}
 let roomChannel=null;let roomScores={};
 function playerName(){return (document.getElementById('playerName')&&document.getElementById('playerName').value.trim())||'Player';}
+(function(){
+const el=document.getElementById('playerName');
+if(!el)return;
+try{const s=localStorage.getItem('ft_name');if(s!=null&&s!=='')el.value=s;}catch(e){}
+el.addEventListener('input',function(){try{localStorage.setItem('ft_name',this.value);}catch(e){}});
+})();
 async function getSupabase(){if(window.__supabase)return window.__supabase;if(!SUPABASE_URL||!API_ANON_KEY)return null;const m=await import('https://esm.sh/@supabase/supabase-js@2');window.__supabase=m.createClient(SUPABASE_URL,API_ANON_KEY);return window.__supabase;}
 function leaveRoom(){if(roomChannel){try{roomChannel.untrack();roomChannel.unsubscribe();}catch(e){}try{window.__supabase&&window.__supabase.removeChannel(roomChannel);}catch(e){}roomChannel=null;}roomScores={};}
 function updateRoomPlayers(el){if(!el||!roomChannel)return;const state=roomChannel.presenceState();const names=[];Object.keys(state).forEach(k=>{state[k].forEach(p=>{if(p&&p.name)names.push(p.name)})});el.textContent=names.length?names.join(', '):'Just you'}
@@ -215,9 +219,9 @@ ch.subscribe((status)=>{if(status==='SUBSCRIBED')ch.track({name:playerName()});}
 roomChannel=ch;}
 const M={tickers:["AAPL","NVDA","AMZN"],step:5,pts:52,starts:{"AAPL":"2025-01-31","NVDA":"2025-01-31","AMZN":"2025-01-31"}};
 const D=[[236,227.63,244.6,247.1,238.03,227.48,214,220.73,222.13,181.46,202.52,199.74,211.21,198.51,212.93,206.86,200.42,202.82,198.78,196.58,201,213.55,211.16,211.18,213.88,202.38,229.35,231.59,227.76,232.14,237.88,236.7,256.08,254.43,256.69,247.66,262.24,268.81,269.05,269.43,267.46,275.92,286.19,277.18,274.61,272.36,271.86,259.04,258.21,248.04,259.48,278.12],[120.07,129.84,138.85,130.28,114.06,106.98,119.53,121.41,108.38,97.64,110.71,98.89,109.02,113.54,129.93,134.38,134.81,141.92,142.83,145.48,155.02,159.34,164.92,172.41,173.5,173.72,182.7,180.45,177.99,174.18,168.31,177.75,183.61,181.85,185.54,188.32,182.64,191.49,206.88,199.05,186.6,182.55,181.46,184.97,177.72,189.21,186.5,185.04,187.05,187.67,191.13,185.41],[237.68,229.15,228.68,212.71,205.02,194.54,195.74,203.26,190.26,175.26,182.12,173.18,187.39,185.01,211.37,204.07,204.72,207.23,213.2,212.52,217.12,223.41,225.02,226.13,231.44,214.75,222.69,231.03,228.84,229,235.84,231.43,227.63,222.17,220.9,220.07,216.48,226.97,254,248.4,232.87,226.28,234.42,227.92,222.56,232.14,230.82,246.29,238.18,239.16,239.3,210.32]];
-const SP=26,TT=20000,MT=10;
+const SP=26,TT=20000;
 const cv=document.getElementById('c'),cx=cv.getContext('2d');
-let W=0,H=0,P=[],tk='',ti=0,ph='idle',ca=1e4,sh=0,cr=MT,sc=1e4,sT=0,tI=0,gameId='',pendingSeed=null;
+let W=0,H=0,P=[],tk='',ti=0,ph='idle',ca=1e4,sh=0,sc=1e4,sT=0,tI=0,gameId='';
 const PL=50,PR=10,PT=28,PB=40;
 const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -276,9 +280,9 @@ pl.textContent='PREVIEW \u00B7 '+fm(dt(0))+' \u2192 '+fm(dt(SP-1));tb.disabled=t
 else if(ph==='trading'){
 const idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)],nw=ca+sh*pr,pct=(nw-sc)/sc*100;
 const left=Math.max(0,Math.ceil((TT-(Date.now()-sT))/1000));
-h.innerHTML=`<span class="ch tk">${tk}</span><span class="ch">${left}s</span><span class="ch">${cr} left</span><span class="ch ${pct>=0?'gn':'rd'}">${pct>=0?'+':''}${pct.toFixed(1)}%</span>`;
+h.innerHTML=`<span class="ch tk">${tk}</span><span class="ch">${left}s</span><span class="ch ${pct>=0?'gn':'rd'}">${pct>=0?'+':''}${pct.toFixed(1)}%</span>`;
 pl.textContent='TRADING \u00B7 '+fs(dt(Math.min(idx,P.length-1)));
-tb.textContent=sh>0?'SELL':'BUY';tb.className=sh>0?'sell':'buy';tb.disabled=cr<=0||(sh===0&&ca<pr)}
+tb.textContent=sh>0?'SELL':'BUY';tb.className=sh>0?'sell':'buy';tb.disabled=sh===0&&ca<pr}
 else if(ph==='done'){
 const pr=P[P.length-1],nw=ca+sh*pr,pct=(nw-sc)/sc*100;
 h.innerHTML=`<span class="ch tk">${tk}</span><span class="ch">FINAL</span><span class="ch ${pct>=0?'gn':'rd'}">${pct>=0?'+':''}${pct.toFixed(2)}% \u00B7 $${nw.toFixed(0)}</span>`;
@@ -312,18 +316,16 @@ refreshLB(lb)}
 function refreshLB(sessionData){
 const el=document.getElementById('lb');let h='';
 const merged=[];Object.keys(roomScores).forEach(n=>merged.push({name:n,score:roomScores[n]}));(sessionData||[]).forEach(e=>{const i=merged.findIndex(m=>m.name===e.name);if(i>=0)merged[i].score=Math.max(merged[i].score,e.score);else merged.push(e)});merged.sort((a,b)=>b.score-a.score);merged.splice(10);
-if(roomChannel){h+='<h3>Live leaderboard</h3>';if(merged.length)merged.forEach((e,i)=>h+=`<div class="lr"><span>${i+1}. ${e.name}</span><span class="${e.score>=0?'gn':'rd'}">${e.score>=0?'+':''}$${e.score}</span></div>`);else h+='<p class="livePlaceholder">Scores appear as players finish.</p>';}
-else if(merged.length){h+='<h3>Session scores</h3>';merged.forEach((e,i)=>h+=`<div class="lr"><span>${i+1}. ${e.name}</span><span class="${e.score>=0?'gn':'rd'}">${e.score>=0?'+':''}$${e.score}</span></div>`);}
+if(roomChannel){h+='<h3>Live & session scores</h3>';if(merged.length)merged.forEach((e,i)=>h+=`<div class="lr"><span>${i+1}. ${e.name}</span><span class="${e.score>=0?'gn':'rd'}">${e.score>=0?'+':''}$${e.score}</span></div>`);else h+='<p class="livePlaceholder">Scores appear as players finish.</p>';}
 el.innerHTML=h||''}
-function showLB(d){refreshLB(d);}
 
 document.getElementById('tbtn').onclick=function(){
-if(ph!=='trading'||cr<=0)return;const idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)];
-if(sh>0){cr--;ca+=sh*pr;sh=0}else{const n=Math.floor(ca/pr);if(n<1)return;cr--;ca-=n*pr;sh+=n}hud()};
+if(ph!=='trading')return;const idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)];
+if(sh>0){ca+=sh*pr;sh=0}else{const n=Math.floor(ca/pr);if(n<1)return;ca-=n*pr;sh+=n}hud()};
 
 function init(seed){
 ti=(seed!=null)?(Math.abs(Math.floor(seed))%M.tickers.length):Math.floor(Math.random()*M.tickers.length);tk=M.tickers[ti];P=D[ti].slice();
-ca=sc;sh=0;cr=MT;tI=0;ph='idle';
+ca=sc;sh=0;tI=0;ph='idle';
 document.getElementById('tbtn').disabled=true;document.getElementById('tbtn').textContent='BUY';document.getElementById('tbtn').className='buy';
 document.getElementById('ov').style.display='none';
 try{const lb=JSON.parse(sessionStorage.getItem('ft_lb')||'[]');refreshLB(lb)}catch(e){refreshLB([])}

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>StockSprint</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:Arial,sans-serif;background:#0a0a0f;color:#fff;overflow-x:hidden;touch-action:manipulation}
+#g{display:flex;flex-direction:column;min-height:100vh;padding:10px;max-width:480px;margin:0 auto}
+#top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px;font-size:14px}
+#top .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#top span{background:#1a1a20;padding:8px 10px;border-radius:6px}
+#chartWrap{position:relative;background:#0d0d12;border-radius:8px;padding:0}
+#chartWrap .center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;text-shadow:0 0 8px #000}
+#chartWrap .price{font-size:22px;font-weight:bold}
+#chartWrap .pct{font-size:18px;margin-top:4px}
+#chartWrap .g{color:#0f0}
+#chartWrap .r{color:#f00}
+canvas{width:100%;height:42vh;display:block;border-radius:8px}
+#btns{margin:12px 0}
+button{padding:18px;font-size:18px;font-weight:bold;border:none;border-radius:8px;cursor:pointer;width:100%}
+#trade{background:#0f0;color:#000}
+#restart{background:#444;color:#fff;width:100%;margin-top:8px}
+button:active{transform:scale(.98)}
+button:disabled{opacity:.5;cursor:not-allowed}
+#lb{margin-top:12px;font-size:13px}
+.lr{padding:6px 8px;margin:4px 0;background:#1a1a20;border-radius:4px;display:flex;justify-content:space-between}
+.g{color:#0f0}
+.r{color:#f00}
+</style>
+</head>
+<body>
+<div id="lobby" style="display:flex;flex-direction:column;align-items:center;gap:12px;min-height:100vh;justify-content:center;padding:20px">
+<h1 style="margin-bottom:8px">StockSprint</h1>
+<button class="lb" id="soloBtn" style="padding:14px 24px;font-size:16px;background:#333;color:#fff;border:none;border-radius:8px;cursor:pointer">Play Solo</button>
+<button class="lb" id="createBtn" style="padding:14px 24px;font-size:16px;background:#333;color:#fff;border:none;border-radius:8px;cursor:pointer">Create Game</button>
+<div id="createArea" style="display:none;text-align:center">
+<div id="gameCode" style="font-size:24px;letter-spacing:4px;margin:8px 0;background:#1a1a20;padding:10px;border-radius:6px"></div>
+<button class="lb" id="startBtn" style="padding:10px 20px;background:#0f0;color:#000;border:none;border-radius:6px;cursor:pointer">Start</button>
+</div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center">
+<input id="codeIn" placeholder="Code" maxlength="8" style="padding:10px;width:90px;font-size:16px;border-radius:6px;border:2px solid #333;background:#111;color:#fff;text-align:center">
+<button class="lb" id="joinBtn" style="padding:14px 20px;font-size:16px;background:#333;color:#fff;border:none;border-radius:8px;cursor:pointer">Join Game</button>
+</div>
+<div id="lobbyErr" style="color:#f66;font-size:13px;min-height:18px"></div>
+<div style="font-size:11px;color:#666;margin-top:12px;text-align:center;max-width:320px">Prices: real if server has /prices; else simulated.<br><br><b>Multiplayer & hosting</b><br>You need a backend that implements: GET /prices?symbol=XXX, POST /submit, GET /leaderboard, POST /create (returns code), POST /join (body: {code}). You don’t need a domain: use a free host (Vercel, Render, Railway) and their URL. Domain is optional.</div>
+</div>
+<div id="g" style="display:none">
+<div id="top"></div>
+<div id="chartWrap">
+<div id="centerOverlay" class="center" style="display:none"><div class="price" id="dispPrice">$0</div><div class="pct" id="dispPct">0%</div></div>
+<canvas id="c"></canvas>
+</div>
+<div id="btns">
+<button id="trade" disabled>BUY / SELL</button>
+</div>
+<button id="restart">RESTART</button>
+<div id="lb"></div>
+</div>
+<script>
+const T=['AAPL','TSLA','NVDA','AMD','GME'];
+const C=document.getElementById('c');
+const X=C.getContext('2d');
+let W,H,P=[],I=0,phase='load',ticker='',cash=0,sh=0,cr=0,sc=10000,startT=0,sd=null,gameId='';
+const M=10;
+const L=44;
+const B=26;
+
+function res(){
+  const w=C.offsetWidth,h=C.offsetHeight;
+  if(w&&h){const d=window.devicePixelRatio||1;C.width=w*d;C.height=h*d;X.scale(d,d);W=w;H=h;}
+}
+res();
+window.onresize=res;
+
+async function load(s){
+  try{
+    const r=await fetch('/prices?symbol='+s);
+    if(r.ok){const j=await r.json();return Array.isArray(j)?j:j.prices||[];}
+  }catch(e){}
+  let v=100;
+  const a=[];
+  for(let i=0;i<265;i++){v+=((Math.random()-.48)*4);v=Math.max(20,v);a.push(v);}
+  return a;
+}
+
+function fmtDate(d){
+  const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return m[d.getMonth()]+' '+d.getFullYear();
+}
+
+function draw(v,startIdx,curPr,gainPct){
+  if(!W||!H)return;
+  const gw=W-L;
+  const gh=H-B;
+  X.fillStyle='#0d0d12';
+  X.fillRect(0,0,W,H);
+  if(!v||v.length<2)return;
+  const mn=Math.min(...v),mx=Math.max(...v),r=(mx-mn)||1;
+  const y=p=>B+(mx-p)/r*gh;
+  const x=i=>L+(i/(v.length-1))*gw;
+  X.strokeStyle='#333';
+  X.lineWidth=1;
+  X.beginPath();
+  X.moveTo(L,B);
+  X.lineTo(L,H-B);
+  X.lineTo(W,H-B);
+  X.stroke();
+  X.fillStyle='#666';
+  X.font='10px Arial';
+  const yTicks=5;
+  for(let i=0;i<=yTicks;i++){
+    const p=mn+(mx-mn)*i/yTicks;
+    const yy=y(p);
+    X.fillText('$'+p.toFixed(0),2,yy+4);
+    if(i>0&&i<yTicks){X.strokeStyle='#222';X.beginPath();X.moveTo(L,yy);X.lineTo(W,yy);X.stroke();X.strokeStyle='#333';}
+  }
+  let ds='',de='';
+  if(sd&&v.length){
+    const d0=new Date(sd.getTime()+startIdx*86400000);
+    const d1=new Date(sd.getTime()+(startIdx+v.length-1)*86400000);
+    ds=fmtDate(d0);
+    de=fmtDate(d1);
+    X.fillText(ds,L,B+14);
+    X.fillText(de,W-48,B+14);
+  }
+  X.strokeStyle='#22c55e';
+  X.lineWidth=2;
+  X.beginPath();
+  v.forEach((p,i)=>{const xx=x(i);const yy=y(p);if(i===0)X.moveTo(xx,yy);else X.lineTo(xx,yy);});
+  X.stroke();
+  const ov=document.getElementById('centerOverlay');
+  const dp=document.getElementById('dispPrice');
+  const dpt=document.getElementById('dispPct');
+  if(ov&&dp&&dpt&&curPr!=null){
+    ov.style.display='block';
+    dp.textContent='$'+Number(curPr).toFixed(2);
+    dp.className='price '+(gainPct>=0?'g':'r');
+    dpt.textContent=(gainPct>=0?'+':'')+gainPct.toFixed(1)+'%';
+    dpt.className='pct '+(gainPct>=0?'g':'r');
+  }else if(ov)ov.style.display='none';
+}
+
+function upd(){
+  const el=document.getElementById('top');
+  if(phase==='preview')el.innerHTML=`<span>📈 ${ticker}</span><span>Preview</span>${gameId?`<span>Room ${gameId}</span>`:''}<span>Data: ${sd?fmtDate(sd)+' → '+fmtDate(new Date(sd.getTime()+255*86400000)):''}</span>`;
+  else if(phase==='trading'){
+    const pr=P[128+Math.floor(I)]||P[P.length-1];
+    const nw=cash+sh*pr;
+    const pct=((nw-sc)/sc*100);
+    const left=20-Math.floor((Date.now()-startT)/1000);
+    el.innerHTML=`<span>📈 ${ticker}</span><span>⏱ ${left}s</span><span>💳 ${cr}</span><span class="${pct>=0?'g':'r'}">${(pct>=0?'+':'')+pct.toFixed(1)}%</span>${gameId?`<span>Room ${gameId}</span>`:''}<span style="font-size:11px;color:#888">${sd?fmtDate(new Date(sd.getTime()+128*86400000))+' → '+fmtDate(new Date(sd.getTime()+255*86400000)):''}</span>`;
+    const tb=document.getElementById('trade');
+    tb.textContent=sh>0?'SELL':'BUY';
+    tb.style.background=sh>0?'#f00':'#0f0';
+    tb.disabled=cr<=0||(sh>0?sh<=0:cash<pr||Math.floor(cash/pr)<1);
+  }
+  else if(phase==='done'){
+    const pr=P[P.length-1];
+    const nw=cash+sh*pr;
+    const pct=((nw-sc)/sc*100).toFixed(1);
+    el.innerHTML=`<span>${ticker} done</span><span class="${pct>=0?'g':'r'}">Return ${Number(pct)>=0?'+':''}${pct}%</span><span style="font-size:11px;color:#888">${sd?fmtDate(sd)+' → '+fmtDate(new Date(sd.getTime()+255*86400000)):''}</span>`;
+  }
+}
+
+function slice(start,len){
+  return P.slice(start,start+len);
+}
+
+function runPreview(){
+  phase='preview';
+  const dur=3000;
+  const start=Date.now();
+  function tick(){
+    const el=(Date.now()-start)/dur;
+    I=el*127;
+    if(I>=127){I=127;phase='trading';startT=Date.now();runTrading();return;}
+    draw(slice(0,Math.floor(I)+2),0,null,null);
+    upd();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function runTrading(){
+  document.getElementById('trade').disabled=false;
+  const endT=startT+20000;
+  function tick(){
+    if(phase!=='trading')return;
+    const now=Date.now();
+    if(now>=endT){
+      phase='done';
+      document.getElementById('trade').disabled=true;
+      upd();
+      submit();
+      return;
+    }
+    I=((now-startT)/20000)*127;
+    const view=slice(128,Math.min(Math.floor(I)+2,129));
+    const curPr=P[128+Math.floor(I)]||P[P.length-1];
+    const gainPct=(cash+sh*curPr-sc)/sc*100;
+    draw(view,128,curPr,gainPct);
+    upd();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function submit(){
+  const pr=P[P.length-1];
+  const nw=Math.round(cash+sh*pr);
+  fetch('/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({score:nw-sc,name:'Player',gameId:gameId||undefined})}).catch(()=>{});
+  const url=gameId?'/leaderboard?game='+encodeURIComponent(gameId):'/leaderboard';
+  fetch(url).then(r=>r.ok?r.json():[]).then(d=>{
+    const lb=document.getElementById('lb');
+    let h='<b>🏆 Top 10</b>';
+    (d.slice(0,10)||[]).forEach((e,i)=>h+=`<div class="lr">${i+1}. ${e.name||'?'} <span class="${e.score>=0?'g':'r'}">$${e.score}</span></div>`);
+    lb.innerHTML=h;
+  }).catch(()=>{});
+}
+
+document.getElementById('trade').onclick=function(){
+  if(phase!=='trading'||cr<=0)return;
+  const pr=P[128+Math.floor(I)]||P[P.length-1];
+  if(sh>0){
+    cr--;cash+=sh*pr;sh=0;
+  }else{
+    const n=Math.floor(cash/pr);
+    if(n<1)return;
+    cr--;cash-=n*pr;sh+=n;
+  }
+  upd();
+};
+
+document.getElementById('restart').onclick=function(){
+  document.getElementById('g').style.display='none';
+  document.getElementById('lobby').style.display='flex';
+};
+
+document.getElementById('soloBtn').onclick=function(){
+  gameId='';
+  document.getElementById('lobby').style.display='none';
+  document.getElementById('g').style.display='flex';
+  init();
+};
+document.getElementById('createBtn').onclick=async function(){
+  document.getElementById('lobbyErr').textContent='';
+  try{
+    const r=await fetch('/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({})});
+    if(r.ok){
+      const j=await r.json();
+      gameId=j.code||j.gameId||Math.random().toString(36).slice(2,8).toUpperCase();
+      document.getElementById('gameCode').textContent=gameId;
+      document.getElementById('createArea').style.display='block';
+    }else throw new Error();
+  }catch(e){document.getElementById('lobbyErr').textContent='No server. Play Solo or host a backend.';}
+};
+document.getElementById('startBtn').onclick=function(){
+  document.getElementById('createArea').style.display='none';
+  document.getElementById('lobby').style.display='none';
+  document.getElementById('g').style.display='flex';
+  init();
+};
+document.getElementById('joinBtn').onclick=async function(){
+  const code=document.getElementById('codeIn').value.trim().toUpperCase();
+  if(!code){document.getElementById('lobbyErr').textContent='Enter a code';return;}
+  document.getElementById('lobbyErr').textContent='';
+  try{
+    const r=await fetch('/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
+    if(!r.ok)throw new Error();
+    const j=await r.json();
+    gameId=j.gameId||code;
+    document.getElementById('lobby').style.display='none';
+    document.getElementById('g').style.display='flex';
+    init();
+  }catch(e){document.getElementById('lobbyErr').textContent='Could not join.';}
+};
+
+async function init(){
+  ticker=T[Math.floor(Math.random()*T.length)];
+  P=await load(ticker);
+  if(P.length<256){
+    let v=P[P.length-1]||100;
+    while(P.length<256){v+=((Math.random()-.5)*3);v=Math.max(20,v);P.push(v);}
+  }
+  P=P.slice(0,256);
+  sd=new Date();
+  sd.setDate(sd.getDate()-255);
+  I=0;cash=sc;sh=0;cr=M;phase='preview';
+  document.getElementById('trade').disabled=true;
+  document.getElementById('lb').innerHTML='';
+  document.getElementById('centerOverlay').style.display='none';
+  upd();
+  runPreview();
+}
+
+document.getElementById('g').style.display='none';
+</script>
+</body>
+</html>

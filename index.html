@@ -2,52 +2,59 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
 <title>FlashTrades</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#08080d;--sf:#0e0e16;--bd:#1c1c2a;--g:#00e676;--r:#ff1744;--t1:#e0e0ee;--t2:#666680}
-body{font-family:monospace;background:var(--bg);color:var(--t1);touch-action:manipulation}
-#app{max-width:500px;margin:0 auto;padding:10px;display:flex;flex-direction:column;min-height:100vh}
-#lobby{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:14px}
+body{font-family:monospace;background:var(--bg);color:var(--t1);touch-action:manipulation;-webkit-tap-highlight-color:transparent;overscroll-behavior:none;padding-bottom:env(safe-area-inset-bottom)}
+#app{max-width:500px;margin:0 auto;padding:max(10px,env(safe-area-inset-left)) 10px max(10px,env(safe-area-inset-bottom));display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+#lobby{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;min-height:100dvh;padding:max(16px,env(safe-area-inset-top)) 12px 24px;gap:14px}
 #lobby h1{font-size:28px;letter-spacing:-1px}
 #lobby p{color:var(--t2);font-size:12px;text-align:center;max-width:300px;line-height:1.5}
 #lobbyMenu{display:flex;flex-direction:column;align-items:center;gap:14px}
-#hostScreen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:20px;padding:24px}
+#hostScreen{display:none;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:20px;padding:24px 16px}
 #hostScreen .hostCode{font-size:42px;font-weight:700;letter-spacing:12px;color:var(--g);text-shadow:0 0 24px rgba(0,230,118,.3);margin:8px 0}
 #hostScreen .hostHint{color:var(--t2);font-size:14px;max-width:280px;line-height:1.5}
 #hostScreen .hostBtns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 #hostScreen .btn{width:auto;min-width:140px}
 #hostBack{background:var(--sf);color:var(--t2);border:1px solid var(--bd)}
-#waitingScreen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:24px}
+#waitingScreen{display:none;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:16px;padding:24px 16px}
 #waitingScreen .hostCode{font-size:32px;font-weight:700;letter-spacing:8px;color:var(--g)}
 #waitingScreen .roomPlayers{font-size:14px;color:var(--t2);min-height:40px}
 #waitingScreen .hostHint{color:var(--t2);font-size:14px}
 #roomLb{font-size:12px;margin-top:8px}
 #roomLb h3{color:var(--t2);margin-bottom:4px;font-size:11px}
 .lobbyName{width:160px;padding:8px 12px;font-size:14px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);font-family:monospace}
-.btn{padding:14px 24px;font-size:15px;font-weight:700;font-family:monospace;background:var(--sf);color:var(--t1);border:1px solid var(--bd);border-radius:8px;cursor:pointer;width:200px;text-align:center}
+.btn{padding:14px 24px;font-size:15px;font-weight:700;font-family:monospace;background:var(--sf);color:var(--t1);border:1px solid var(--bd);border-radius:8px;cursor:pointer;width:200px;text-align:center;min-height:48px}
 .btn:active{transform:scale(.97)}
 .btn.go{background:var(--g);color:#000;border-color:var(--g)}
-#game{display:none;flex-direction:column;gap:8px;flex:1}
+#game{display:none;flex-direction:column;gap:8px;flex:1;min-height:0;padding:max(8px,env(safe-area-inset-top)) 0 0;position:relative}
+#game.game-open{position:fixed;inset:0;top:0;left:0;right:0;bottom:0;width:100%;height:100%;height:100dvh;max-width:100%;margin:0;padding:max(8px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));overflow-y:auto;overflow-x:hidden;z-index:50;background:var(--bg);-webkit-overflow-scrolling:touch}
+body.game-open{overflow:hidden}
+#countdownOverlay{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:var(--bg);pointer-events:none;min-height:200px}
+#countdownOverlay .countdownNum{font-size:clamp(72px,25vmin,160px);font-weight:700;color:var(--g);text-shadow:0 0 40px rgba(0,230,118,.4);transition:opacity .5s ease}
+#countdownOverlay.countdown-fade .countdownNum{opacity:0}
+#countdownOverlay.countdown-fade{animation:countdownOverlayFade .5s ease forwards}
+@keyframes countdownOverlayFade{to{opacity:0;visibility:hidden}}
 #hud{display:flex;flex-wrap:wrap;gap:5px;font-size:12px}
 .ch{padding:5px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:5px;white-space:nowrap}
 .ch.tk{background:#7c4dff;color:#fff;border-color:#7c4dff}
-#chartBox{position:relative;background:var(--sf);border-radius:10px;border:1px solid var(--bd);flex:1;min-height:280px}
+#chartBox{position:relative;background:var(--sf);border-radius:10px;border:1px solid var(--bd);flex:1;min-height:min(280px,40vh)}
 canvas{width:100%;height:100%;display:block}
 #ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;display:none}
 #ov .p{font-size:26px;font-weight:700;text-shadow:0 0 16px #000}
 #ov .c{font-size:16px;margin-top:2px;text-shadow:0 0 16px #000}
 #phase{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--t2);background:var(--sf);padding:3px 10px;border-radius:12px;border:1px solid var(--bd)}
 #brow{display:flex;gap:6px}
-#tbtn{flex:1;padding:14px;font-size:16px;font-weight:700;font-family:monospace;border:none;border-radius:8px;cursor:pointer;letter-spacing:1px}
+#tbtn{flex:1;padding:14px 16px;font-size:16px;font-weight:700;font-family:monospace;border:none;border-radius:8px;cursor:pointer;letter-spacing:1px;min-height:48px}
 #tbtn:active{transform:scale(.97)}
 #tbtn:disabled{opacity:.3;cursor:not-allowed;transform:none}
 #tbtn.buy{background:var(--g);color:#000}
 #tbtn.sell{background:var(--r);color:#fff}
-#xbtn{padding:14px 16px;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;background:var(--sf);color:var(--t2);border:1px solid var(--bd);font-family:monospace}
+#xbtn{padding:14px 16px;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;background:var(--sf);color:var(--t2);border:1px solid var(--bd);font-family:monospace;min-height:48px}
 #xbtn:active{transform:scale(.97)}
-#lb{font-size:12px;margin-top:8px;padding:10px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;max-height:180px;overflow-y:auto}
+#lb{font-size:12px;margin-top:8px;padding:10px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;max-height:180px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #lb h3{color:var(--t2);margin-bottom:6px;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
 #lb .livePlaceholder{color:var(--t2);font-size:11px;font-style:italic}
 .lr{padding:6px 8px;margin:2px 0;background:var(--bg);border-radius:4px;display:flex;justify-content:space-between;border:1px solid var(--bd)}
@@ -73,7 +80,18 @@ canvas{width:100%;height:100%;display:block}
 .htp-ex.up{background:rgba(0,230,118,.12);color:var(--g);border:1px solid rgba(0,230,118,.25)}
 .htp-ex.dn{background:rgba(255,23,68,.12);color:var(--r);border:1px solid rgba(255,23,68,.25)}
 .htp-footer{font-size:11px;color:var(--t2);text-align:center;line-height:1.5}
-#htpLink{color:var(--t2);cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-size:12px;background:none;border:none;font-family:monospace}
+#htpLink{color:var(--t2);cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-size:12px;background:none;border:none;font-family:monospace;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:8px}
+@media (max-width:480px){
+#lobby h1{font-size:clamp(22px,6vw,28px)}
+#hostScreen .hostCode{font-size:clamp(28px,10vw,42px);letter-spacing:clamp(6px,2vw,12px)}
+#waitingScreen .hostCode{font-size:clamp(24px,8vw,32px);letter-spacing:clamp(4px,1.5vw,8px)}
+.btn{width:100%;max-width:280px}
+.lobbyName{width:100%;max-width:240px;min-height:44px;font-size:16px}
+#codeIn{min-height:48px;font-size:16px;width:100%;max-width:140px}
+.joinRow{flex-direction:column;width:100%;max-width:280px}
+#lb{max-height:140px}
+#brow{flex-wrap:nowrap;gap:8px}
+}
 </style>
 </head>
 <body>
@@ -85,11 +103,10 @@ canvas{width:100%;height:100%;display:block}
 <label style="display:flex;flex-direction:column;gap:4px;align-items:center"><span style="font-size:11px;color:var(--t2)">Your name</span><input type="text" id="playerName" class="lobbyName" placeholder="Player" maxlength="20"></label>
 <button class="btn go" id="playBtn">PLAY</button>
 <button class="btn" id="hostBtn">HOST FOR FRIENDS</button>
-<div style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap">
+<div class="joinRow" style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap">
 <input type="text" id="codeIn" placeholder="4-digit code" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="width:100px;padding:10px;font-size:18px;text-align:center;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);font-family:monospace">
 <button class="btn" id="joinBtn">JOIN WITH CODE</button>
 </div>
-<button class="btn" id="onlineBtn">PLAY ONLINE</button>
 <p>AAPL · NVDA · AMZN<br>Jan–Dec 2025 historical prices</p>
 <button id="htpLink">How to Play</button>
 <div id="lobbyErr" style="color:var(--r);font-size:12px;min-height:18px"></div>
@@ -162,6 +179,7 @@ canvas{width:100%;height:100%;display:block}
 </div>
 </div>
 <div id="game">
+<div id="countdownOverlay" style="display:none"><span id="countdownNum" class="countdownNum">3</span></div>
 <div id="hud"></div>
 <div id="chartBox">
 <div id="phase"></div>
@@ -311,7 +329,36 @@ document.getElementById('ov').style.display='none';
 try{const lb=JSON.parse(sessionStorage.getItem('ft_lb')||'[]');refreshLB(lb)}catch(e){refreshLB([])}
 rsz();preview()}
 
-function goGame(seed){document.getElementById('lobby').style.display='none';document.getElementById('game').style.display='flex';document.getElementById('lobbyErr').textContent='';document.getElementById('lobbyMenu').style.display='flex';document.getElementById('hostScreen').style.display='none';document.getElementById('waitingScreen').style.display='none';pendingSeed=seed;setTimeout(()=>{init(pendingSeed);pendingSeed=null},50)}
+function goGame(seed){
+document.getElementById('lobby').style.display='none';
+const gameEl=document.getElementById('game');
+gameEl.style.display='flex';
+gameEl.classList.add('game-open');
+document.body.classList.add('game-open');
+document.getElementById('lobbyErr').textContent='';
+document.getElementById('lobbyMenu').style.display='flex';
+document.getElementById('hostScreen').style.display='none';
+document.getElementById('waitingScreen').style.display='none';
+const overlay=document.getElementById('countdownOverlay');
+const numEl=document.getElementById('countdownNum');
+overlay.style.display='flex';
+overlay.classList.remove('countdown-fade');
+numEl.style.opacity='1';
+numEl.textContent='3';
+let step=3;
+function tick(){
+step--;
+if(step>0){numEl.textContent=step;setTimeout(tick,1000);return}
+numEl.textContent='1';
+overlay.classList.add('countdown-fade');
+setTimeout(()=>{
+overlay.style.display='none';
+overlay.classList.remove('countdown-fade');
+init(seed);
+},500);
+}
+setTimeout(tick,1000);
+}
 
 document.getElementById('playBtn').onclick=function(){gameId='';leaveRoom();goGame()};
 
@@ -353,19 +400,8 @@ document.getElementById('waitingBack').onclick=function(){
 leaveRoom();document.getElementById('waitingScreen').style.display='none';document.getElementById('lobbyMenu').style.display='flex';gameId='';
 };
 
-document.getElementById('onlineBtn').onclick=async function(){
-document.getElementById('lobbyErr').textContent='';
-if(!API_BASE||!API_ANON_KEY){document.getElementById('lobbyErr').textContent='Set API_ANON_KEY for multiplayer';return}
-try{
-const r=await fetch(API_BASE+'/open-games',{headers:apiHeaders()});
-const codes=r.ok?await r.json():[];
-if(codes&&codes.length>0){gameId=codes[0];goGame();return}
-const cr=await fetch(API_BASE+'/create',{method:'POST',headers:apiHeaders({'Content-Type':'application/json'}),body:JSON.stringify({public:true})});
-if(!cr.ok)throw new Error();const j=await cr.json();gameId=j.code||j.gameId;goGame();
-}catch(e){document.getElementById('lobbyErr').textContent='Could not find or create game'}};
-
 document.getElementById('xbtn').onclick=function(){
-leaveRoom();ph='idle';gameId='';document.getElementById('game').style.display='none';document.getElementById('lobby').style.display='flex';
+leaveRoom();ph='idle';gameId='';const g=document.getElementById('game');g.style.display='none';g.classList.remove('game-open');document.body.classList.remove('game-open');document.getElementById('lobby').style.display='flex';
 document.getElementById('lobbyMenu').style.display='flex';document.getElementById('hostScreen').style.display='none';document.getElementById('waitingScreen').style.display='none'};
 
 // How to Play modal

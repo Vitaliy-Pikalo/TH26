@@ -1,112 +1,415 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>FlashTrader</title><style>*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#08080d;--sf:#0e0e16;--bd:#1c1c2a;--g:#00e676;--r:#ff1744;--t1:#e0e0ee;--t2:#666680;--ac:#7c4dff}body{font-family:'Courier New',monospace;background:var(--bg);color:var(--t1);touch-action:manipulation;overflow:hidden;height:100dvh}#a{width:100%;height:100dvh;max-width:540px;margin:0 auto;display:flex;flex-direction:column;position:relative}#L{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100dvh;gap:12px;padding:20px}.gt{font-family:'Courier New',monospace;font-size:clamp(32px,9vw,48px);font-weight:900;text-transform:uppercase;text-align:center;line-height:1.1;color:#fff;text-shadow:0 0 20px rgba(124,77,255,.5);letter-spacing:3px}.b{padding:12px 22px;font-size:14px;font-weight:700;background:var(--sf);color:var(--t1);border:1px solid var(--bd);border-radius:8px;cursor:pointer;width:200px;text-align:center;font-family:inherit}.b:active{transform:scale(.97)}.b.go{background:var(--g);color:#000;border-color:var(--g)}.jr{display:flex;gap:6px;align-items:center}.jr input{width:80px;padding:10px;font-size:18px;text-align:center;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);font-family:inherit;letter-spacing:4px}#hl{color:var(--t2);cursor:pointer;text-decoration:underline;font-size:11px;background:0;border:0;font-family:inherit}#le{color:var(--r);font-size:11px;min-height:14px}#hx{display:none;flex-direction:column;align-items:center;gap:10px}#G{display:none;flex-direction:column;height:100dvh;padding:8px}#H{display:flex;flex-wrap:wrap;gap:5px;font-size:12px;padding:2px 0;flex-shrink:0}.c{padding:5px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:5px;white-space:nowrap}.c.t{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}#tm{height:5px;border-radius:3px;margin:3px 0;background:rgba(255,255,255,.05);flex-shrink:0;overflow:hidden}#tf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--g),#0cf,var(--ac))}#B{position:relative;background:var(--sf);border-radius:10px;border:1px solid var(--bd);flex:1;min-height:0}canvas{width:100%;height:100%;display:block}#ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;display:none;z-index:2}#ov .p{font-size:min(7vw,26px);font-weight:700;text-shadow:0 0 12px #000}#ov .q{font-size:min(4.5vw,16px);margin-top:2px;text-shadow:0 0 8px #000}#ph{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--t2);background:var(--sf);padding:3px 10px;border-radius:12px;border:1px solid var(--bd);z-index:2;white-space:nowrap}#br{display:flex;gap:6px;padding:8px 0 4px;flex-shrink:0}#tb{flex:1;padding:clamp(11px,3vw,16px);font-size:clamp(15px,4.5vw,20px);font-weight:700;font-family:inherit;border:none;border-radius:8px;cursor:pointer}#tb:active{transform:scale(.97)}#tb:disabled{opacity:.3;cursor:not-allowed;transform:none}#tb.buy{background:var(--g);color:#000}#tb.sell{background:var(--r);color:#fff}#xb{padding:clamp(11px,3vw,16px) 14px;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;background:var(--sf);color:var(--t2);border:1px solid var(--bd);font-family:inherit}.gn{color:var(--g)}.rd{color:var(--r)}#E{display:none;position:absolute;inset:0;z-index:50;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px}.ep{font-size:clamp(38px,11vw,58px);font-weight:900;line-height:1;text-shadow:0 0 20px rgba(124,77,255,.5)}.e2{display:flex;gap:8px;margin-top:6px}.e2 .b{width:auto;padding:12px 24px;font-size:13px}#el{font-size:12px;width:min(260px,75vw);max-height:130px;overflow-y:auto}#el h3{color:var(--t2);margin-bottom:4px;font-size:11px}.lr{padding:5px 8px;margin:2px 0;background:var(--sf);border-radius:4px;display:flex;justify-content:space-between;border:1px solid var(--bd);font-size:12px}</style></head><body><div id="a"><div id="L"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 0 10px rgba(124,77,255,.6))"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" fill="#fff" stroke="#e0e0ee" stroke-width="0.5"/></svg><div class="gt">FLASH<br>TRADER</div><div style="color:var(--t2);font-size:11px">REAL DATA · 10 TRADES · 20 SECONDS</div><div id="lm"><div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin-bottom:8px"><span style="font-size:10px;color:var(--t2)">Your name</span><input type="text" id="pn" style="width:150px;padding:8px;font-size:13px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);text-align:center" placeholder="Player" maxlength="16"></div><div style="display:flex;flex-direction:column;align-items:center;gap:8px"><button class="b go" id="pb">PLAY SOLO</button><button class="b" id="hb">HOST GAME</button><div class="jr"><input id="ci" placeholder="CODE" maxlength="4" inputmode="numeric"><button class="b" style="width:auto;padding:12px 18px" id="jb">JOIN</button></div></div></div><div id="hx"><div style="color:var(--t2);font-size:12px">Share this code with friends</div><div style="font-size:38px;font-weight:900;letter-spacing:10px;color:var(--g)" id="gc">----</div><div style="display:flex;gap:8px"><button class="b go" id="sb" style="width:auto;padding:12px 28px">START</button><button class="b" id="hk" style="width:auto;padding:12px 20px">BACK</button></div></div><button id="hl">How to Play</button><div id="le"></div></div><div id="G"><div id="H"></div><div id="tm"><div id="tf" style="width:100%"></div></div><div id="B"><div id="ph"></div><div id="ov"><div class="p" id="dp"></div><div class="q" id="dc"></div></div><canvas id="cv"></canvas></div><div id="br"><button id="tb" class="buy" disabled>BUY</button><button id="xb">EXIT</button></div></div><div id="E"><div style="font-size:11px;color:var(--t2);letter-spacing:2px">RESULT</div><div style="font-size:14px;color:var(--ac);font-weight:700" id="ek"></div><div class="ep" id="ep"></div><div style="font-size:12px;color:var(--t2)" id="ee"></div><div style="font-size:11px;color:var(--t2);opacity:.6" id="eu"></div><div id="el"></div><div class="e2"><button class="b go" id="ea">AGAIN</button><button class="b" id="eh">HOME</button></div></div></div><script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
+<title>FlashTrades</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#08080d;--sf:#0e0e16;--bd:#1c1c2a;--g:#00e676;--r:#ff1744;--t1:#e0e0ee;--t2:#666680}
+body{font-family:monospace;background:var(--bg);color:var(--t1);touch-action:manipulation;-webkit-tap-highlight-color:transparent;overscroll-behavior:none;padding-bottom:env(safe-area-inset-bottom)}
+#app{max-width:500px;margin:0 auto;padding:max(10px,env(safe-area-inset-left)) 10px max(10px,env(safe-area-inset-bottom));display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+#lobby{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;min-height:100dvh;padding:max(16px,env(safe-area-inset-top)) 12px 24px;gap:14px}
+#lobby h1{font-size:28px;letter-spacing:-1px}
+#lobby p{color:var(--t2);font-size:12px;text-align:center;max-width:300px;line-height:1.5}
+#lobbyMenu{display:flex;flex-direction:column;align-items:center;gap:14px}
+#hostScreen{display:none;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:20px;padding:24px 16px}
+#hostScreen .hostCode{font-size:42px;font-weight:700;letter-spacing:12px;color:var(--g);text-shadow:0 0 24px rgba(0,230,118,.3);margin:8px 0}
+#hostScreen .hostHint{color:var(--t2);font-size:14px;max-width:280px;line-height:1.5}
+#hostScreen .hostBtns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+#hostScreen .btn{width:auto;min-width:140px}
+#hostBack{background:var(--sf);color:var(--t2);border:1px solid var(--bd)}
+#waitingScreen{display:none;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:16px;padding:24px 16px}
+#waitingScreen .hostCode{font-size:32px;font-weight:700;letter-spacing:8px;color:var(--g)}
+#waitingScreen .roomPlayers{font-size:14px;color:var(--t2);min-height:40px}
+#waitingScreen .hostHint{color:var(--t2);font-size:14px}
+.lobbyName{width:160px;padding:8px 12px;font-size:14px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);font-family:monospace}
+.btn{padding:14px 24px;font-size:15px;font-weight:700;font-family:monospace;background:var(--sf);color:var(--t1);border:1px solid var(--bd);border-radius:8px;cursor:pointer;width:200px;text-align:center;min-height:48px}
+.btn:active{transform:scale(.97)}
+.btn.go{background:var(--g);color:#000;border-color:var(--g)}
+#game{display:none;flex-direction:column;gap:8px;flex:1;min-height:0;padding:max(8px,env(safe-area-inset-top)) 0 0;position:relative}
+#game.game-open{position:fixed;inset:0;top:0;left:0;right:0;bottom:0;width:100%;height:100%;height:100dvh;max-width:100%;margin:0;padding:max(8px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));overflow-y:auto;overflow-x:hidden;z-index:50;background:var(--bg);-webkit-overflow-scrolling:touch}
+body.game-open{overflow:hidden}
+#countdownOverlay{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:var(--bg);pointer-events:none;min-height:200px}
+#countdownOverlay .countdownNum{font-size:clamp(72px,25vmin,160px);font-weight:700;color:var(--g);text-shadow:0 0 40px rgba(0,230,118,.4);transition:opacity .5s ease}
+#countdownOverlay.countdown-fade .countdownNum{opacity:0}
+#countdownOverlay.countdown-fade{animation:countdownOverlayFade .5s ease forwards}
+@keyframes countdownOverlayFade{to{opacity:0;visibility:hidden}}
+#hud{display:flex;flex-wrap:wrap;gap:5px;font-size:12px}
+.ch{padding:5px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:5px;white-space:nowrap}
+.ch.tk{background:#7c4dff;color:#fff;border-color:#7c4dff}
+#chartBox{position:relative;background:var(--sf);border-radius:10px;border:1px solid var(--bd);flex:1;min-height:min(280px,40vh)}
+canvas{width:100%;height:100%;display:block}
+#ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;display:none}
+#ov .p{font-size:26px;font-weight:700;text-shadow:0 0 16px #000}
+#ov .c{font-size:16px;margin-top:2px;text-shadow:0 0 16px #000}
+#phase{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--t2);background:var(--sf);padding:3px 10px;border-radius:12px;border:1px solid var(--bd)}
+#brow{display:flex;gap:6px}
+#tbtn{flex:1;padding:14px 16px;font-size:16px;font-weight:700;font-family:monospace;border:none;border-radius:8px;cursor:pointer;letter-spacing:1px;min-height:48px}
+#tbtn:active{transform:scale(.97)}
+#tbtn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+#tbtn.buy{background:var(--g);color:#000}
+#tbtn.sell{background:var(--r);color:#fff}
+#xbtn{padding:14px 16px;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;background:var(--sf);color:var(--t2);border:1px solid var(--bd);font-family:monospace;min-height:48px}
+#xbtn:active{transform:scale(.97)}
+#lb{font-size:12px;margin-top:8px;padding:10px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;max-height:180px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#lb h3{color:var(--t2);margin-bottom:6px;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+#lb .livePlaceholder{color:var(--t2);font-size:11px;font-style:italic}
+.lr{padding:6px 8px;margin:2px 0;background:var(--bg);border-radius:4px;display:flex;justify-content:space-between;border:1px solid var(--bd)}
+.gn{color:var(--g)}.rd{color:var(--r)}
+
+/* How to Play modal */
+#htpOverlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+#htpOverlay.open{display:flex}
+#htpModal{background:var(--bg);border:1px solid var(--bd);border-radius:14px;max-width:380px;width:100%;padding:0;overflow:hidden;animation:htpIn .25s ease}
+@keyframes htpIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+#htpModal header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px 12px;border-bottom:1px solid var(--bd)}
+#htpModal header h2{font-size:16px;font-weight:700;letter-spacing:.5px}
+#htpClose{background:none;border:none;color:var(--t2);font-size:22px;cursor:pointer;padding:0 4px;line-height:1}
+#htpClose:hover{color:var(--t1)}
+#htpBody{padding:18px 20px 20px;display:flex;flex-direction:column;gap:16px}
+.htp-step{display:flex;gap:12px;align-items:flex-start}
+.htp-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:var(--sf);border:1px solid var(--bd)}
+.htp-text{font-size:13px;line-height:1.55;color:var(--t1)}
+.htp-text strong{color:#fff}
+.htp-divider{height:1px;background:var(--bd);margin:2px 0}
+.htp-examples{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.htp-ex{font-size:11px;padding:4px 8px;border-radius:5px;font-weight:700}
+.htp-ex.up{background:rgba(0,230,118,.12);color:var(--g);border:1px solid rgba(0,230,118,.25)}
+.htp-ex.dn{background:rgba(255,23,68,.12);color:var(--r);border:1px solid rgba(255,23,68,.25)}
+.htp-footer{font-size:11px;color:var(--t2);text-align:center;line-height:1.5}
+#htpLink{color:var(--t2);cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-size:12px;background:none;border:none;font-family:monospace;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:8px}
+@media (max-width:480px){
+#lobby h1{font-size:clamp(22px,6vw,28px)}
+#hostScreen .hostCode{font-size:clamp(28px,10vw,42px);letter-spacing:clamp(6px,2vw,12px)}
+#waitingScreen .hostCode{font-size:clamp(24px,8vw,32px);letter-spacing:clamp(4px,1.5vw,8px)}
+.btn{width:100%;max-width:280px}
+.lobbyName{width:100%;max-width:240px;min-height:44px;font-size:16px}
+#codeIn{min-height:48px;font-size:16px;width:100%;max-width:140px}
+.joinRow{flex-direction:column;width:100%;max-width:280px}
+#lb{max-height:140px}
+#brow{flex-wrap:nowrap;gap:8px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="lobby">
+<h1>⚡ FlashTrades</h1>
+<p>Real stock data. 20 seconds. Beat the market.</p>
+<div id="lobbyMenu">
+<label style="display:flex;flex-direction:column;gap:4px;align-items:center"><span style="font-size:11px;color:var(--t2)">Your name</span><input type="text" id="playerName" class="lobbyName" placeholder="Player" maxlength="20"></label>
+<button class="btn go" id="playBtn">PLAY</button>
+<button class="btn" id="hostBtn">HOST FOR FRIENDS</button>
+<div class="joinRow" style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap">
+<input type="text" id="codeIn" placeholder="4-digit code" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="width:100px;padding:10px;font-size:18px;text-align:center;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--t1);font-family:monospace">
+<button class="btn" id="joinBtn">JOIN WITH CODE</button>
+</div>
+<p>AAPL · NVDA · AMZN<br>Jan–Dec 2025 historical prices</p>
+<button id="htpLink">How to Play</button>
+<div id="lobbyErr" style="color:var(--r);font-size:12px;min-height:18px"></div>
+</div>
+<div id="hostScreen">
+<p class="hostHint">Share this code with friends. They enter it under <strong>Join with code</strong>.</p>
+<p class="hostCode" id="gameCode">----</p>
+<div id="roomPlayersHost" class="hostHint" style="min-height:24px"></div>
+<p class="hostHint">When everyone is ready, start the game.</p>
+<div class="hostBtns">
+<button class="btn go" id="startHostBtn">START GAME</button>
+<button class="btn" id="hostBack">BACK</button>
+</div>
+</div>
+<div id="waitingScreen">
+<p class="hostHint">Room code</p>
+<p class="hostCode" id="waitingCode">----</p>
+<p class="hostHint">Players in room</p>
+<div id="roomPlayersWait" class="roomPlayers"></div>
+<p class="hostHint">Waiting for host to start…</p>
+<button class="btn" id="waitingBack">BACK</button>
+</div>
+</div>
+</div>
+
+<!-- How to Play Modal -->
+<div id="htpOverlay">
+<div id="htpModal">
+<header>
+<h2>HOW TO PLAY</h2>
+<button id="htpClose">✕</button>
+</header>
+<div id="htpBody">
+
+<div class="htp-step">
+<div class="htp-icon">📈</div>
+<div class="htp-text"><strong>Watch the preview.</strong> You'll see ~6 months of real stock history animate across the chart. Study the trend.</div>
+</div>
+
+<div class="htp-step">
+<div class="htp-icon">⏱</div>
+<div class="htp-text"><strong>Trade in 20 seconds.</strong> The next ~6 months play out in real-time. Tap <strong>BUY</strong> to go all-in, <strong>SELL</strong> to cash out.</div>
+</div>
+
+<div class="htp-step">
+<div class="htp-icon">🔄</div>
+<div class="htp-text"><strong>Trade freely.</strong> Buy dips, sell peaks. No limit on how many trades you make.</div>
+</div>
+
+<div class="htp-divider"></div>
+
+<div class="htp-step">
+<div class="htp-icon">💰</div>
+<div class="htp-text"><strong>Beat $10,000.</strong> You start with $10k. Your goal is to end with more than you started.
+<div class="htp-examples">
+<span class="htp-ex up">+12.4% — great</span>
+<span class="htp-ex dn">−3.1% — ouch</span>
+</div>
+</div>
+</div>
+
+<div class="htp-step">
+<div class="htp-icon">🎲</div>
+<div class="htp-text"><strong>Random ticker each round.</strong> You'll trade one of AAPL, NVDA, or AMZN with real 2025 price data.</div>
+</div>
+
+<div class="htp-footer">A new round, a new stock. Can you read the chart?</div>
+
+</div>
+</div>
+</div>
+<div id="game">
+<div id="countdownOverlay" style="display:none"><span id="countdownNum" class="countdownNum">3</span></div>
+<div id="hud"></div>
+<div id="chartBox">
+<div id="phase"></div>
+<div id="ov"><div class="p" id="dp"></div><div class="c" id="dc"></div></div>
+<canvas id="c"></canvas>
+</div>
+<div id="brow">
+<button id="tbtn" class="buy" disabled>BUY</button>
+<button id="xbtn">EXIT</button>
+</div>
+<div id="lb"></div>
+</div>
+</div>
+<script>
 const API_BASE='https://rifgcpscgxkqbkkcxouw.supabase.co/functions/v1';
-const SUPABASE_URL='https://rifgcpscgxkqbkkcxouw.supabase.co';
+const SUPABASE_URL=(API_BASE||'').replace(/\/functions\/v1\/?$/,'');
+// Get anon key: Supabase Dashboard → Settings → API → "anon public" → paste below (required for multiplayer)
 const API_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZmdjcHNjZ3hrcWJra2N4b3V3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0NzU4MzQsImV4cCI6MjA4NjA1MTgzNH0.ouMq6u9tzxWuqoYaYgS8SZQNYgQRWGsHx3WrPivnoyk';
 function apiHeaders(extra){const h=extra||{};if(API_ANON_KEY)h['Authorization']='Bearer '+API_ANON_KEY;return h;}
-let roomChannel=null,roomScores={},isOnline=false,gameId=null;
-function pn(){return(document.getElementById('pn').value.trim())||'Player'}
+let roomChannel=null;let roomScores={};
+function playerName(){return (document.getElementById('playerName')&&document.getElementById('playerName').value.trim())||'Player';}
+(function(){
+const el=document.getElementById('playerName');
+if(!el)return;
+try{const s=localStorage.getItem('ft_name');if(s!=null&&s!=='')el.value=s;}catch(e){}
+el.addEventListener('input',function(){try{localStorage.setItem('ft_name',this.value);}catch(e){}});
+})();
 async function getSupabase(){if(window.__supabase)return window.__supabase;if(!SUPABASE_URL||!API_ANON_KEY)return null;const m=await import('https://esm.sh/@supabase/supabase-js@2');window.__supabase=m.createClient(SUPABASE_URL,API_ANON_KEY);return window.__supabase;}
 function leaveRoom(){if(roomChannel){try{roomChannel.untrack();roomChannel.unsubscribe();}catch(e){}try{window.__supabase&&window.__supabase.removeChannel(roomChannel);}catch(e){}roomChannel=null;}roomScores={};}
-async function subscribeRoom(code,isHost,onStart){
-const supabase=await getSupabase();if(!supabase){document.getElementById('le').textContent='Multiplayer disabled';return}
+function updateRoomPlayers(el){if(!el||!roomChannel)return;const state=roomChannel.presenceState();const names=[];Object.keys(state).forEach(k=>{state[k].forEach(p=>{if(p&&p.name)names.push(p.name)})});el.textContent=names.length?names.join(', '):'Just you'}
+async function subscribeRoom(code,isHost){
+const supabase=await getSupabase();if(!supabase){document.getElementById('lobbyErr').textContent='Set API_ANON_KEY for Realtime';return}
 leaveRoom();
 const ch=supabase.channel('room:'+code);
-ch.on('presence',{event:'sync'},()=>{});
-ch.on('broadcast',{event:'start'},(p)=>{if(onStart)onStart();});
-ch.on('broadcast',{event:'score'},(p)=>{if(p&&p.payload&&p.payload.name!=null)roomScores[p.payload.name]=p.payload.score;try{const lb=JSON.parse(sessionStorage.getItem('ss')||'[]');refreshLB(lb);}catch(e){}});
-ch.subscribe((status)=>{if(status==='SUBSCRIBED'){ch.track({name:pn()});isOnline=true;if(!isHost)document.getElementById('le').textContent='Waiting for host to start...';}});
+ch.on('presence',{event:'sync'},()=>{updateRoomPlayers(isHost?document.getElementById('roomPlayersHost'):document.getElementById('roomPlayersWait'));});
+ch.on('broadcast',{event:'start'},(p)=>{const seed=(p&&p.payload&&p.payload.seed)!=null?p.payload.seed:Date.now();goGame(seed);});
+ch.on('broadcast',{event:'score'},(p)=>{if(p&&p.payload&&p.payload.name!=null)roomScores[p.payload.name]=p.payload.score;try{const lb=JSON.parse(sessionStorage.getItem('ft_lb')||'[]');refreshLB(lb);}catch(e){}});
+ch.subscribe((status)=>{if(status==='SUBSCRIBED')ch.track({name:playerName()});});
 roomChannel=ch;}
-async function broadcastStart(){if(roomChannel){try{roomChannel.send({type:'broadcast',event:'start',payload:{}});}catch(e){}}}
-async function broadcastScore(){if(roomChannel){try{roomChannel.send({type:'broadcast',event:'score',payload:{name:pn(),score:rp}});}catch(e){}}}
-function refreshLB(localScores){var all={};localScores.forEach(function(e){all[e.n]=e.s});Object.keys(roomScores).forEach(function(k){all[k]=roomScores[k]});var arr=Object.keys(all).map(function(k){return{n:k,s:all[k]}});arr.sort(function(a,b){return b.s-a.s});var el=document.getElementById('el'),s='<h3>RANKINGS</h3>';arr.slice(0,8).forEach(function(e,i){s+='<div class="lr"><span>'+(i+1)+'. '+e.n+'</span><span class="'+(e.s>=0?'gn':'rd')+'">'+(e.s>=0?'+':'')+e.s.toFixed(1)+'%</span></div>'});el.innerHTML=s}
-var M={t:["AAPL","NVDA","AMZN"],s:5,st:{"AAPL":"2025-01-31","NVDA":"2025-01-31","AMZN":"2025-01-31"}},
-D=[[236,227.63,244.6,247.1,238.03,227.48,214,220.73,222.13,181.46,202.52,199.74,211.21,198.51,212.93,206.86,200.42,202.82,198.78,196.58,201,213.55,211.16,211.18,213.88,202.38,229.35,231.59,227.76,232.14,237.88,236.7,256.08,254.43,256.69,247.66,262.24,268.81,269.05,269.43,267.46,275.92,286.19,277.18,274.61,272.36,271.86,259.04,258.21,248.04,259.48,278.12],[120.07,129.84,138.85,130.28,114.06,106.98,119.53,121.41,108.38,97.64,110.71,98.89,109.02,113.54,129.93,134.38,134.81,141.92,142.83,145.48,155.02,159.34,164.92,172.41,173.5,173.72,182.7,180.45,177.99,174.18,168.31,177.75,183.61,181.85,185.54,188.32,182.64,191.49,206.88,199.05,186.6,182.55,181.46,184.97,177.72,189.21,186.5,185.04,187.05,187.67,191.13,185.41],[237.68,229.15,228.68,212.71,205.02,194.54,195.74,203.26,190.26,175.26,182.12,173.18,187.39,185.01,211.37,204.07,204.72,207.23,213.2,212.52,217.12,223.41,225.02,226.13,231.44,214.75,222.69,231.03,228.84,229,235.84,231.43,227.63,222.17,220.9,220.07,216.48,226.97,254,248.4,232.87,226.28,234.42,227.92,222.56,232.14,230.82,246.29,238.18,239.16,239.3,210.32]],
-SP=26,TT=20000,MC=10,cn=document.getElementById('cv'),cx=cn.getContext('2d'),
-W=0,H=0,P=[],tk='',ph='idle',sT=0,tI=0,cr=MC,bp=0,hd=false,rp=0,tl=[],
-PL=46,PR=8,PT=24,PB=36,MN='Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
-function pn(){return(document.getElementById('pn').value.trim())||'Player'}
-function dt(i){var s=new Date(M.st[tk]+'T00:00:00');s.setDate(s.getDate()+i*M.s);return s}
-function fs(d){return MN[d.getMonth()]+' '+d.getDate()}
-function fm(d){return MN[d.getMonth()]+" '"+String(d.getFullYear()).slice(2)}
-function tot(p){var r=rp;if(hd&&bp>0)r+=(p-bp)/bp*100;return r}
-function rsz(){var b=document.getElementById('B');if(!b)return;var w=b.clientWidth,h=b.clientHeight;if(w&&h){var d=devicePixelRatio||1;cn.width=w*d;cn.height=h*d;cx.setTransform(d,0,0,d,0,0);W=w;H=h}}
-function draw(data,cp,gp){
+const M={tickers:["AAPL","NVDA","AMZN"],step:5,pts:52,starts:{"AAPL":"2025-01-31","NVDA":"2025-01-31","AMZN":"2025-01-31"}};
+const D=[[236,227.63,244.6,247.1,238.03,227.48,214,220.73,222.13,181.46,202.52,199.74,211.21,198.51,212.93,206.86,200.42,202.82,198.78,196.58,201,213.55,211.16,211.18,213.88,202.38,229.35,231.59,227.76,232.14,237.88,236.7,256.08,254.43,256.69,247.66,262.24,268.81,269.05,269.43,267.46,275.92,286.19,277.18,274.61,272.36,271.86,259.04,258.21,248.04,259.48,278.12],[120.07,129.84,138.85,130.28,114.06,106.98,119.53,121.41,108.38,97.64,110.71,98.89,109.02,113.54,129.93,134.38,134.81,141.92,142.83,145.48,155.02,159.34,164.92,172.41,173.5,173.72,182.7,180.45,177.99,174.18,168.31,177.75,183.61,181.85,185.54,188.32,182.64,191.49,206.88,199.05,186.6,182.55,181.46,184.97,177.72,189.21,186.5,185.04,187.05,187.67,191.13,185.41],[237.68,229.15,228.68,212.71,205.02,194.54,195.74,203.26,190.26,175.26,182.12,173.18,187.39,185.01,211.37,204.07,204.72,207.23,213.2,212.52,217.12,223.41,225.02,226.13,231.44,214.75,222.69,231.03,228.84,229,235.84,231.43,227.63,222.17,220.9,220.07,216.48,226.97,254,248.4,232.87,226.28,234.42,227.92,222.56,232.14,230.82,246.29,238.18,239.16,239.3,210.32]];
+const SP=26,TT=20000;
+const cv=document.getElementById('c'),cx=cv.getContext('2d');
+let W=0,H=0,P=[],tk='',ti=0,ph='idle',ca=1e4,sh=0,sc=1e4,sT=0,tI=0,gameId='';
+const PL=50,PR=10,PT=28,PB=40;
+const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function dt(i){const s=new Date(M.starts[tk]+'T00:00:00');s.setDate(s.getDate()+i*M.step);return s}
+function fs(d){return mn[d.getMonth()]+' '+d.getDate()}
+function fm(d){return mn[d.getMonth()]+" '"+String(d.getFullYear()).slice(2)}
+
+function rsz(){const b=document.getElementById('chartBox');const w=b.clientWidth,h=b.clientHeight;if(w&&h){const d=devicePixelRatio||1;cv.width=w*d;cv.height=h*d;cx.setTransform(d,0,0,d,0,0);W=w;H=h}}
+rsz();onresize=rsz;
+
+function draw(data,si,cp,gp){
 if(!W||!H||data.length<2)return;
-var gw=W-PL-PR,gh=H-PT-PB,lo=Math.min.apply(null,data),hi=Math.max.apply(null,data),rn=(hi-lo)||1;
-var pad=rn*.06,pL=lo-pad,pH=hi+pad,pR=pH-pL;
-var tx=function(i){return PL+(i/(data.length-1))*gw},ty=function(p){return PT+(pH-p)/pR*gh};
+const gw=W-PL-PR,gh=H-PT-PB;
 cx.fillStyle='#0e0e16';cx.fillRect(0,0,W,H);
-cx.font='10px Courier New,monospace';cx.textAlign='right';cx.fillStyle='#444460';
-for(var i=0;i<=4;i++){var p=pL+pR*i/4,y=ty(p);cx.fillText('$'+p.toFixed(0),PL-4,y+3);
-if(i>0&&i<4){cx.strokeStyle='#1a1a28';cx.lineWidth=1;cx.beginPath();cx.moveTo(PL,y);cx.lineTo(W-PR,y);cx.stroke()}}
+const lo=Math.min(...data),hi=Math.max(...data),rn=(hi-lo)||1;
+const pad=rn*.06,pL=lo-pad,pH=hi+pad,pR=pH-pL;
+const tx=i=>PL+(i/(data.length-1))*gw;
+const ty=p=>PT+(pH-p)/pR*gh;
+
+// grid + Y labels
+cx.font='10px monospace';cx.textAlign='right';cx.fillStyle='#444460';
+for(let i=0;i<=4;i++){const p=pL+pR*i/4,y=ty(p);
+cx.fillText('$'+p.toFixed(0),PL-5,y+3);
+if(i>0&&i<4){cx.strokeStyle='#161624';cx.lineWidth=1;cx.beginPath();cx.moveTo(PL,y);cx.lineTo(W-PR,y);cx.stroke()}}
+
+// X labels
 cx.textAlign='center';cx.fillStyle='#444460';
-var lc=Math.min(data.length,5),ls=Math.max(1,Math.floor((data.length-1)/(lc-1)));
-for(var i=0;i<data.length;i+=ls)cx.fillText(fs(dt(i)),tx(i),H-PB+14);
-var li=data.length-1;if(li%ls)cx.fillText(fs(dt(li)),tx(li),H-PB+14);
+const lc=Math.min(data.length,5),ls=Math.max(1,Math.floor((data.length-1)/(lc-1)));
+for(let i=0;i<data.length;i+=ls){cx.fillText(fs(dt(si+i)),tx(i),H-PB+16)}
+const li=data.length-1;if(li%ls)cx.fillText(fs(dt(si+li)),tx(li),H-PB+16);
+
+// axis labels
+cx.fillStyle='#333348';cx.font='9px monospace';
+cx.textAlign='center';cx.fillText('Date',W/2,H-3);
+cx.save();cx.translate(10,PT+gh/2);cx.rotate(-Math.PI/2);cx.fillText('Price (USD)',0,0);cx.restore();
+
+// axes
 cx.strokeStyle='#252538';cx.lineWidth=1;cx.beginPath();cx.moveTo(PL,PT);cx.lineTo(PL,H-PB);cx.lineTo(W-PR,H-PB);cx.stroke();
-var up=data[li]>=data[0],cl=up?'#00e676':'#ff1744';
-cx.strokeStyle=cl;cx.lineWidth=2;cx.lineJoin='round';
-cx.beginPath();for(var i=0;i<data.length;i++){var x=tx(i),y=ty(data[i]);i?cx.lineTo(x,y):cx.moveTo(x,y)}cx.stroke();
-if(cp!=null){var x=tx(li),y=ty(cp);cx.beginPath();cx.arc(x,y,4,0,Math.PI*2);cx.fillStyle=cl;cx.fill()}
-var ov=document.getElementById('ov'),dp=document.getElementById('dp'),dc=document.getElementById('dc');
-if(cp!=null&&ph==='trading'){ov.style.display='block';dp.textContent='$'+cp.toFixed(2);dp.style.color=gp>=0?'var(--g)':'var(--r)';
-dc.textContent=(gp>=0?'+':'')+gp.toFixed(2)+'%';dc.style.color=gp>=0?'var(--g)':'var(--r)'}
-else ov.style.display='none'}
+
+// line
+const up=data[li]>=data[0];cx.strokeStyle=up?'#00e676':'#ff1744';cx.lineWidth=2;cx.lineJoin='round';
+cx.beginPath();data.forEach((p,i)=>{const x=tx(i),y=ty(p);i?cx.lineTo(x,y):cx.moveTo(x,y)});cx.stroke();
+
+// dot
+if(cp!=null){const x=tx(li),y=ty(cp);cx.beginPath();cx.arc(x,y,4,0,Math.PI*2);cx.fillStyle=up?'#00e676':'#ff1744';cx.fill()}
+
+// overlay
+const ov=document.getElementById('ov'),dp=document.getElementById('dp'),dc=document.getElementById('dc');
+if(cp!=null&&ph==='trading'){ov.style.display='block';dp.textContent='$'+cp.toFixed(2);dp.style.color=gp>=0?'var(--g)':'var(--r)';dc.textContent=(gp>=0?'+':'')+gp.toFixed(2)+'%';dc.style.color=gp>=0?'var(--g)':'var(--r)'}else ov.style.display='none'}
+
 function hud(){
-var h=document.getElementById('H'),pl=document.getElementById('ph'),tb=document.getElementById('tb'),tf=document.getElementById('tf');
-if(ph==='preview'){h.innerHTML='<span class="c t">'+tk+'</span><span class="c">PREVIEW</span>';
-pl.textContent=fm(dt(0))+' \u2192 '+fm(dt(SP-1));tb.disabled=true;tf.style.width='100%'}
-else if(ph==='trading'){var idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)],pct=tot(pr);
-var left=Math.max(0,Math.ceil((TT-(Date.now()-sT))/1000));tf.style.width=Math.max(0,left/20*100)+'%';
-h.innerHTML='<span class="c t">'+tk+'</span><span class="c">'+left+'s</span><span class="c">'+cr+'</span><span class="c '+(pct>=0?'gn':'rd')+'">'+(pct>=0?'+':'')+pct.toFixed(1)+'%</span>';
-pl.textContent=fs(dt(Math.min(idx,P.length-1)));
-tb.textContent=hd?'SELL':'BUY';tb.className=hd?'sell':'buy';tb.disabled=cr<=0}}
-function preview(){ph='preview';var dur=2500,s=Date.now();
-function t(){if(ph!=='preview')return;var e=(Date.now()-s)/dur,n=Math.min(SP,Math.floor(e*SP)+2);
-draw(P.slice(0,n),null,null);hud();
-if(e>=1){draw(P.slice(0,SP),null,null);setTimeout(function(){ph='trading';sT=Date.now();trading()},400);return}
+const h=document.getElementById('hud'),pl=document.getElementById('phase'),tb=document.getElementById('tbtn');
+if(ph==='preview'){
+h.innerHTML=`<span class="ch tk">${tk}</span><span class="ch">Historical</span>`;
+pl.textContent='PREVIEW \u00B7 '+fm(dt(0))+' \u2192 '+fm(dt(SP-1));tb.disabled=true}
+else if(ph==='trading'){
+const idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)],nw=ca+sh*pr,pct=(nw-sc)/sc*100;
+const left=Math.max(0,Math.ceil((TT-(Date.now()-sT))/1000));
+h.innerHTML=`<span class="ch tk">${tk}</span><span class="ch">${left}s</span><span class="ch ${pct>=0?'gn':'rd'}">${pct>=0?'+':''}${pct.toFixed(1)}%</span>`;
+pl.textContent='TRADING \u00B7 '+fs(dt(Math.min(idx,P.length-1)));
+tb.textContent=sh>0?'SELL':'BUY';tb.className=sh>0?'sell':'buy';tb.disabled=sh===0&&ca<pr}
+else if(ph==='done'){
+const pr=P[P.length-1],nw=ca+sh*pr,pct=(nw-sc)/sc*100;
+h.innerHTML=`<span class="ch tk">${tk}</span><span class="ch">FINAL</span><span class="ch ${pct>=0?'gn':'rd'}">${pct>=0?'+':''}${pct.toFixed(2)}% \u00B7 $${nw.toFixed(0)}</span>`;
+pl.textContent='GAME OVER';tb.disabled=true;tb.textContent='DONE';tb.className='buy'}}
+
+function preview(){
+ph='preview';const dur=2500,s=Date.now();
+function t(){if(ph!=='preview')return;const e=(Date.now()-s)/dur,n=Math.min(SP,Math.floor(e*SP)+2);
+draw(P.slice(0,n),0,null,null);hud();
+if(e>=1){draw(P.slice(0,SP),0,null,null);setTimeout(()=>{ph='trading';sT=Date.now();trade()},600);return}
 requestAnimationFrame(t)}requestAnimationFrame(t)}
-function trading(){document.getElementById('tb').disabled=false;var tp=P.length-SP;
-function t(){if(ph!=='trading')return;var now=Date.now();
-if(now>=sT+TT){tI=tp-1;ph='done';var lp=P[P.length-1];
-if(hd){rp+=(lp-bp)/bp*100;tl.push('s');hd=false}
-draw(P,lp,rp);showEnd();return}
-tI=((now-sT)/TT)*(tp-1);var ei=Math.min(SP+Math.floor(tI)+2,P.length);
-var v=P.slice(0,ei),ci=SP+Math.floor(tI),cp=P[Math.min(ci,P.length-1)];
-draw(v,cp,tot(cp));hud();requestAnimationFrame(t)}requestAnimationFrame(t)}
-document.getElementById('tb').onclick=function(){
-if(ph!=='trading'||cr<=0)return;var idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)];
-if(hd){rp+=(pr-bp)/bp*100;hd=false;cr--;tl.push('s')}
-else{bp=pr;hd=true;cr--;tl.push('b')}hud()};
-function showEnd(){
-var pct=rp,up=pct>=0;document.getElementById('ek').textContent=tk;
-var pe=document.getElementById('ep');pe.textContent=(up?'+':'')+pct.toFixed(2)+'%';pe.style.color=up?'var(--g)':'var(--r)';
-document.getElementById('ee').textContent=fm(dt(0))+' \u2192 '+fm(dt(P.length-1));
-document.getElementById('eu').textContent=tl.length+'/'+MC+' trades';
-if(roomChannel){broadcastScore()}
-var lb=[];try{lb=JSON.parse(sessionStorage.getItem('ss')||'[]')}catch(e){}
-lb.push({n:pn(),s:rp,t:tk});lb.sort(function(a,b){return b.s-a.s});lb=lb.slice(0,8);
-try{sessionStorage.setItem('ss',JSON.stringify(lb))}catch(e){}
-refreshLB(lb);
-document.getElementById('G').style.display='none';document.getElementById('E').style.display='flex'}
-function init(){var ti=Math.floor(Math.random()*M.t.length);tk=M.t[ti];P=D[ti].slice();
-hd=false;bp=0;rp=0;cr=MC;tI=0;ph='idle';tl=[];
-document.getElementById('tb').disabled=true;document.getElementById('tb').textContent='BUY';document.getElementById('tb').className='buy';
-document.getElementById('ov').style.display='none';document.getElementById('tf').style.width='100%';rsz();preview()}
-function go(){document.getElementById('L').style.display='none';document.getElementById('G').style.display='flex';setTimeout(init,50)}
-document.getElementById('pb').onclick=go;
-document.getElementById('hb').onclick=async function(){document.getElementById('le').textContent='';var c=String(1000+Math.floor(Math.random()*9000));gameId=c;document.getElementById('gc').textContent=c;await subscribeRoom(c,true);document.getElementById('lm').style.display='none';document.getElementById('hx').style.display='flex'};
-document.getElementById('sb').onclick=function(){broadcastStart();go()};
-document.getElementById('hk').onclick=function(){leaveRoom();gameId=null;document.getElementById('hx').style.display='none';document.getElementById('lm').style.display='block'};
-document.getElementById('jb').onclick=async function(){var c=document.getElementById('ci').value.trim();
-if(!c){document.getElementById('le').textContent='Enter a code';return}
-gameId=c;
-document.getElementById('le').textContent='Connecting...';
-await subscribeRoom(c,false,function(){document.getElementById('le').textContent='';go()})};
-document.getElementById('xb').onclick=function(){leaveRoom();gameId=null;ph='idle';document.getElementById('G').style.display='none';document.getElementById('L').style.display='flex';
-document.getElementById('lm').style.display='block';document.getElementById('hx').style.display='none'};
-document.getElementById('ea').onclick=function(){document.getElementById('E').style.display='none';document.getElementById('G').style.display='flex';setTimeout(init,50)};
-document.getElementById('eh').onclick=function(){leaveRoom();gameId=null;document.getElementById('E').style.display='none';document.getElementById('L').style.display='flex'};
-document.getElementById('hl').onclick=function(){alert('FLASH TRADER\n\n📈 PREVIEW: Watch ~6 months of history\n⏱ TRADE: 20s to BUY/SELL the next ~6 months\n🔄 10 TRADES: Each buy or sell uses one\n💰 % RETURN: Accumulates each buy→sell')};
-window.addEventListener('resize',function(){if(ph!=='idle')rsz()});rsz();
-</script></body></html>
+
+function trade(){
+document.getElementById('tbtn').disabled=false;const tp=P.length-SP;
+function t(){if(ph!=='trading')return;const now=Date.now();
+if(now>=sT+TT){tI=tp-1;ph='done';const v=P.slice(SP),lp=P[P.length-1],gp=(ca+sh*lp-sc)/sc*100;
+draw(v,SP,lp,gp);hud();save();return}
+tI=((now-sT)/TT)*(tp-1);const n=Math.min(tp,Math.floor(tI)+2),v=P.slice(SP,SP+n);
+const ci=SP+Math.floor(tI),cp=P[Math.min(ci,P.length-1)],gp=(ca+sh*cp-sc)/sc*100;
+draw(v,SP,cp,gp);hud();requestAnimationFrame(t)}requestAnimationFrame(t)}
+
+function save(){
+const pr=P[P.length-1],nw=Math.round(ca+sh*pr),s=nw-sc;
+if(roomChannel){try{roomChannel.send({type:'broadcast',event:'score',payload:{name:playerName(),score:s}});}catch(e){}} 
+if(gameId&&API_BASE){fetch(API_BASE+'/submit',{method:'POST',headers:apiHeaders({'Content-Type':'application/json'}),body:JSON.stringify({score:s,name:playerName(),gameId:gameId})}).catch(()=>{})}
+let lb=[];try{lb=JSON.parse(sessionStorage.getItem('ft_lb')||'[]')}catch(e){}
+lb.push({name:playerName(),score:s});lb.sort((a,b)=>b.score-a.score);lb=lb.slice(0,10);
+try{sessionStorage.setItem('ft_lb',JSON.stringify(lb))}catch(e){}
+refreshLB(lb)}
+
+function refreshLB(sessionData){
+const el=document.getElementById('lb');let h='';
+const merged=[];Object.keys(roomScores).forEach(n=>merged.push({name:n,score:roomScores[n]}));(sessionData||[]).forEach(e=>{const i=merged.findIndex(m=>m.name===e.name);if(i>=0)merged[i].score=Math.max(merged[i].score,e.score);else merged.push(e)});merged.sort((a,b)=>b.score-a.score);merged.splice(10);
+if(roomChannel){h+='<h3>Live & session scores</h3>';if(merged.length)merged.forEach((e,i)=>h+=`<div class="lr"><span>${i+1}. ${e.name}</span><span class="${e.score>=0?'gn':'rd'}">${e.score>=0?'+':''}$${e.score}</span></div>`);else h+='<p class="livePlaceholder">Scores appear as players finish.</p>';}
+el.innerHTML=h||''}
+
+document.getElementById('tbtn').onclick=function(){
+if(ph!=='trading')return;const idx=SP+Math.floor(tI),pr=P[Math.min(idx,P.length-1)];
+if(sh>0){ca+=sh*pr;sh=0}else{const n=Math.floor(ca/pr);if(n<1)return;ca-=n*pr;sh+=n}hud()};
+
+function init(seed){
+ti=(seed!=null)?(Math.abs(Math.floor(seed))%M.tickers.length):Math.floor(Math.random()*M.tickers.length);tk=M.tickers[ti];P=D[ti].slice();
+ca=sc;sh=0;tI=0;ph='idle';
+document.getElementById('tbtn').disabled=true;document.getElementById('tbtn').textContent='BUY';document.getElementById('tbtn').className='buy';
+document.getElementById('ov').style.display='none';
+try{const lb=JSON.parse(sessionStorage.getItem('ft_lb')||'[]');refreshLB(lb)}catch(e){refreshLB([])}
+rsz();preview()}
+
+function goGame(seed){
+document.getElementById('lobby').style.display='none';
+const gameEl=document.getElementById('game');
+gameEl.style.display='flex';
+gameEl.classList.add('game-open');
+document.body.classList.add('game-open');
+document.getElementById('lobbyErr').textContent='';
+document.getElementById('lobbyMenu').style.display='flex';
+document.getElementById('hostScreen').style.display='none';
+document.getElementById('waitingScreen').style.display='none';
+const overlay=document.getElementById('countdownOverlay');
+const numEl=document.getElementById('countdownNum');
+overlay.style.display='flex';
+overlay.classList.remove('countdown-fade');
+numEl.style.opacity='1';
+numEl.textContent='3';
+let step=3;
+function tick(){
+step--;
+if(step>0){numEl.textContent=step;setTimeout(tick,1000);return}
+numEl.textContent='1';
+overlay.classList.add('countdown-fade');
+setTimeout(()=>{
+overlay.style.display='none';
+overlay.classList.remove('countdown-fade');
+init(seed);
+},500);
+}
+setTimeout(tick,1000);
+}
+
+document.getElementById('playBtn').onclick=function(){gameId='';leaveRoom();goGame()};
+
+document.getElementById('hostBtn').onclick=async function(){
+document.getElementById('lobbyErr').textContent='';
+if(!API_ANON_KEY){document.getElementById('lobbyErr').textContent='Set API_ANON_KEY for multiplayer';return}
+const code=String(1000+Math.floor(Math.random()*9000));
+gameId=code;
+document.getElementById('gameCode').textContent=code;
+await subscribeRoom(code,true);
+document.getElementById('lobbyMenu').style.display='none';
+document.getElementById('hostScreen').style.display='flex';
+document.getElementById('roomPlayersHost').textContent='…';
+setTimeout(()=>updateRoomPlayers(document.getElementById('roomPlayersHost')),500);
+};
+document.getElementById('startHostBtn').onclick=function(){
+const seed=Date.now();
+if(roomChannel){try{roomChannel.send({type:'broadcast',event:'start',payload:{seed}});}catch(e){}}
+goGame(seed);
+};
+document.getElementById('hostBack').onclick=function(){
+leaveRoom();document.getElementById('hostScreen').style.display='none';document.getElementById('lobbyMenu').style.display='flex';gameId='';
+};
+
+document.getElementById('joinBtn').onclick=async function(){
+const raw=document.getElementById('codeIn').value.trim().replace(/\D/g,'').slice(0,4);
+if(raw.length!==4){document.getElementById('lobbyErr').textContent='Enter 4-digit code';return}
+document.getElementById('lobbyErr').textContent='';
+if(!API_ANON_KEY){document.getElementById('lobbyErr').textContent='Set API_ANON_KEY for multiplayer';return}
+gameId=raw;
+document.getElementById('waitingCode').textContent=raw;
+await subscribeRoom(raw,false);
+document.getElementById('lobbyMenu').style.display='none';
+document.getElementById('waitingScreen').style.display='flex';
+document.getElementById('roomPlayersWait').textContent='…';
+setTimeout(()=>updateRoomPlayers(document.getElementById('roomPlayersWait')),500);
+};
+document.getElementById('waitingBack').onclick=function(){
+leaveRoom();document.getElementById('waitingScreen').style.display='none';document.getElementById('lobbyMenu').style.display='flex';gameId='';
+};
+
+document.getElementById('xbtn').onclick=function(){
+leaveRoom();ph='idle';gameId='';const g=document.getElementById('game');g.style.display='none';g.classList.remove('game-open');document.body.classList.remove('game-open');document.getElementById('lobby').style.display='flex';
+document.getElementById('lobbyMenu').style.display='flex';document.getElementById('hostScreen').style.display='none';document.getElementById('waitingScreen').style.display='none'};
+
+// How to Play modal
+document.getElementById('htpLink').onclick=function(){document.getElementById('htpOverlay').classList.add('open')};
+document.getElementById('htpClose').onclick=function(){document.getElementById('htpOverlay').classList.remove('open')};
+document.getElementById('htpOverlay').onclick=function(e){if(e.target===this)this.classList.remove('open')};
+</script>
+</body>
+</html>
